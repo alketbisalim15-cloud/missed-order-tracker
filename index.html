@@ -1,0 +1,2104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#260509">
+<title>missed. — Order Studio</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap');
+
+:root {
+  --bg: #1c0508;
+  --bg2: #29070c;
+  --panel: #320a10;
+  --panel2: #3d0d14;
+  --red: #8f1525;
+  --red2: #b3283c;
+  --cream: #fff1dc;
+  --muted: #bda5a0;
+  --gold: #d8b16a;
+  --gold2: #f1d5a0;
+  --line: rgba(255,241,220,.11);
+  --green: #9dd9a8;
+  --danger: #ff9a9a;
+  --radius: 22px;
+  --shadow: 0 20px 55px rgba(0,0,0,.22);
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--cream);
+  background:
+    radial-gradient(ellipse at 85% 0%, rgba(143,21,37,.20), transparent 38%),
+    radial-gradient(ellipse at 0% 45%, rgba(104,10,24,.12), transparent 40%),
+    var(--bg);
+  font-family: 'DM Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+button:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+button:active { transform: scale(.975); }
+
+.app {
+  max-width: 1440px;
+  margin: auto;
+  padding: 25px 30px 110px;
+}
+
+/* Header */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.brand-mark {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(216,177,106,.42);
+  border-radius: 15px;
+  background: linear-gradient(145deg, #54101b, #29070c);
+  box-shadow: inset 0 1px rgba(255,255,255,.06);
+}
+
+.brand-mark svg { width: 28px; height: 28px; }
+
+.brand-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 29px;
+  letter-spacing: -1.5px;
+  line-height: 1;
+}
+
+.brand-sub {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 2.3px;
+  text-transform: uppercase;
+}
+
+.top-status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--muted);
+  font-size: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.025);
+  border-radius: 999px;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 12px rgba(157,217,168,.45);
+}
+
+/* Navigation */
+
+.nav {
+  display: flex;
+  gap: 7px;
+  padding: 8px;
+  margin: 22px 0 29px;
+  width: fit-content;
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  background: rgba(255,255,255,.025);
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 0;
+  border-radius: 11px;
+  padding: 12px 17px;
+  background: transparent;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: background .25s ease, color .25s ease, box-shadow .25s ease;
+}
+
+.nav-btn svg { width: 17px; height: 17px; }
+
+.nav-btn.active {
+  color: var(--cream);
+  background: linear-gradient(135deg, #8f1525, #67101b);
+  box-shadow: 0 5px 18px rgba(143,21,37,.28);
+}
+
+.nav-btn:not(.active):hover {
+  color: var(--cream);
+  background: rgba(255,255,255,.055);
+}
+
+/* Page transitions */
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+  animation: pageIn .32s cubic-bezier(.2,.7,.2,1) both;
+}
+
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(9px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  color: var(--gold);
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 9px;
+}
+
+h1, h2, h3, p { margin-top: 0; }
+
+h1, h2 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+  letter-spacing: -.6px;
+}
+
+h1 { font-size: clamp(30px, 4vw, 43px); margin-bottom: 8px; }
+h2 { font-size: 29px; margin-bottom: 8px; }
+
+.subtitle {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+.date-label {
+  color: var(--muted);
+  font-size: 11px;
+  text-align: right;
+  line-height: 1.7;
+}
+
+/* Summary cards */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 15px;
+  margin-bottom: 31px;
+}
+
+.stat-card {
+  position: relative;
+  overflow: hidden;
+  padding: 22px;
+  min-height: 127px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(145deg, rgba(75,15,24,.82), rgba(44,8,13,.92));
+  box-shadow: var(--shadow);
+}
+
+.stat-card:after {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  right: -45px;
+  top: -55px;
+  border-radius: 50%;
+  background: rgba(216,177,106,.06);
+  pointer-events: none;
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 13px;
+}
+
+.stat-value {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(25px, 3vw, 34px);
+  color: var(--cream);
+  letter-spacing: -.5px;
+  overflow-wrap: anywhere;
+}
+
+.stat-note {
+  margin-top: 8px;
+  color: var(--gold);
+  font-size: 10px;
+}
+
+/* Products */
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 17px;
+}
+
+.product-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 232px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: linear-gradient(150deg, rgba(64,13,21,.96), rgba(38,7,12,.96));
+  text-align: left;
+  color: var(--cream);
+  box-shadow: 0 9px 28px rgba(0,0,0,.11);
+  transition: border-color .25s ease, transform .25s ease, box-shadow .25s ease, background .25s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(216,177,106,.48);
+  box-shadow: 0 17px 35px rgba(0,0,0,.22);
+  background: linear-gradient(150deg, rgba(79,16,27,.98), rgba(44,8,14,.98));
+}
+
+.product-card:before {
+  content: "";
+  position: absolute;
+  top: -38px;
+  right: -38px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 1px solid rgba(216,177,106,.09);
+  box-shadow: 0 0 0 16px rgba(216,177,106,.025), 0 0 0 32px rgba(216,177,106,.018);
+  pointer-events: none;
+}
+
+.product-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.product-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  border: 1px solid rgba(216,177,106,.2);
+  background: linear-gradient(145deg, rgba(216,177,106,.12), rgba(216,177,106,.035));
+  font-size: 22px;
+}
+
+.product-arrow {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  color: var(--gold);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font-size: 17px;
+  transition: transform .25s ease, background .25s ease;
+}
+
+.product-card:hover .product-arrow {
+  transform: translate(2px,-2px);
+  background: rgba(216,177,106,.1);
+}
+
+.product-name {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 24px;
+  margin-bottom: 7px;
+}
+
+.product-desc {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.product-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+
+.product-price {
+  color: var(--gold2);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.product-price small {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.add-label {
+  font-size: 10px;
+  color: var(--cream);
+  background: rgba(255,241,220,.07);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 7px 10px;
+}
+
+/* Shared buttons */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-weight: 700;
+  font-size: 12px;
+  transition: all .2s ease;
+}
+
+.btn-primary {
+  color: #2a0a0c;
+  background: linear-gradient(135deg, #f0d49d, #c99b49);
+  box-shadow: 0 6px 17px rgba(201,155,73,.12);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.07);
+  box-shadow: 0 9px 22px rgba(201,155,73,.2);
+}
+
+.btn-secondary {
+  color: var(--cream);
+  background: rgba(255,255,255,.045);
+  border-color: var(--line);
+}
+
+.btn-secondary:hover { background: rgba(255,255,255,.085); }
+
+.btn-danger {
+  color: var(--danger);
+  background: rgba(255,100,100,.06);
+  border-color: rgba(255,100,100,.18);
+}
+
+.btn-small { padding: 8px 11px; font-size: 11px; }
+
+button:disabled { opacity: .4; cursor: not-allowed; }
+
+/* Panels and history */
+
+.panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(50,10,16,.76);
+  overflow: hidden;
+}
+
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.panel-title {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.panel-sub {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+.history-list { padding: 7px 20px; }
+
+.order-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 17px 2px;
+  border-bottom: 1px solid var(--line);
+  animation: pageIn .25s ease both;
+}
+
+.order-row:last-child { border-bottom: 0; }
+
+.order-main { min-width: 0; }
+
+.order-name {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  overflow-wrap: anywhere;
+}
+
+.order-meta {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.order-right {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.order-total {
+  color: var(--gold2);
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+
+.order-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.empty {
+  padding: 47px 18px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.empty-icon { font-size: 31px; margin-bottom: 13px; }
+.empty-title { color: var(--cream); font-size: 15px; font-weight: 700; margin-bottom: 7px; }
+.empty-copy { font-size: 12px; line-height: 1.7; }
+
+/* Revenue footer */
+
+.revenue-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: 18px;
+  padding: 19px 22px;
+  border: 1px solid rgba(216,177,106,.24);
+  border-radius: 18px;
+  background: linear-gradient(110deg, rgba(105,16,29,.75), rgba(47,9,15,.85));
+}
+
+.revenue-label {
+  color: var(--muted);
+  font-size: 11px;
+  margin-bottom: 6px;
+}
+
+.revenue-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: var(--gold2);
+}
+
+/* Price editor */
+
+.price-list { padding: 5px 22px; }
+
+.price-row {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 145px;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.price-row:last-child { border-bottom: 0; }
+
+.price-name { font-size: 13px; font-weight: 700; }
+.price-description { font-size: 10px; color: var(--muted); margin-top: 5px; }
+
+.price-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  background: rgba(0,0,0,.14);
+  border-radius: 12px;
+  padding: 0 11px;
+}
+
+.price-input-wrap span { color: var(--gold); font-size: 11px; }
+
+.price-input {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 0;
+  border: 0;
+  outline: 0;
+  color: var(--cream);
+  background: transparent;
+  font-weight: 700;
+}
+
+.price-input:focus { outline: 0; }
+
+/* Modal / order screen */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 18px;
+  background: rgba(10,1,3,.78);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .25s ease, visibility .25s ease;
+}
+
+.modal-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  width: min(100%, 520px);
+  max-height: min(90vh, 850px);
+  overflow-y: auto;
+  border: 1px solid rgba(216,177,106,.22);
+  border-radius: 26px;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(143,21,37,.2), transparent 45%),
+    #2b080d;
+  box-shadow: 0 30px 100px rgba(0,0,0,.5);
+  transform: translateY(16px) scale(.985);
+  transition: transform .28s cubic-bezier(.2,.7,.2,1);
+}
+
+.modal-backdrop.open .modal {
+  transform: translateY(0) scale(1);
+}
+
+.modal-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 25px 25px 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 27px;
+  font-weight: 500;
+  margin-bottom: 7px;
+}
+
+.modal-desc { font-size: 11px; color: var(--muted); line-height: 1.6; }
+
+.close-btn {
+  width: 37px;
+  height: 37px;
+  flex-shrink: 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--cream);
+  background: rgba(255,255,255,.04);
+  font-size: 20px;
+  transition: background .2s;
+}
+
+.close-btn:hover { background: rgba(255,255,255,.1); }
+
+.modal-body { padding: 22px 25px 25px; }
+
+.field { margin-bottom: 22px; }
+
+.field-label {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.flavor-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.flavor-option {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  color: var(--cream);
+  background: rgba(255,255,255,.025);
+  text-align: left;
+  transition: border-color .2s, background .2s, transform .2s;
+}
+
+.flavor-option.selected {
+  border-color: rgba(216,177,106,.72);
+  background: rgba(216,177,106,.09);
+}
+
+.radio-dot {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255,241,220,.3);
+  border-radius: 50%;
+}
+
+.flavor-option.selected .radio-dot {
+  border-color: var(--gold);
+}
+
+.flavor-option.selected .radio-dot:after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.flavor-text { font-size: 12px; font-weight: 600; }
+
+.quantity-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: rgba(255,255,255,.025);
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.qty-btn {
+  width: 35px;
+  height: 35px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  color: var(--cream);
+  background: rgba(255,255,255,.055);
+  font-size: 19px;
+  transition: background .2s;
+}
+
+.qty-btn:hover { background: rgba(255,255,255,.12); }
+
+.qty-number { font-size: 15px; font-weight: 700; min-width: 13px; text-align: center; }
+
+.price-edit {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.price-edit .price-input-wrap { flex: 1; }
+
+.total-preview {
+  margin-top: 20px;
+  padding: 17px;
+  border: 1px solid rgba(216,177,106,.23);
+  border-radius: 15px;
+  background: rgba(216,177,106,.055);
+}
+
+.preview-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.preview-label { color: var(--muted); font-size: 11px; }
+.preview-total { color: var(--gold2); font-size: 25px; font-family: 'Playfair Display', serif; }
+
+.modal-submit { width: 100%; margin-top: 18px; padding: 15px; font-size: 13px; }
+
+.modal-footer-note {
+  text-align: center;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.7;
+  margin: 13px 0 0;
+}
+
+/* Toast notifications */
+
+.toast-stack {
+  position: fixed;
+  z-index: 200;
+  right: 20px;
+  bottom: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: min(360px, calc(100vw - 32px));
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 15px 17px;
+  border: 1px solid rgba(216,177,106,.25);
+  border-radius: 15px;
+  background: #350b12;
+  color: var(--cream);
+  box-shadow: 0 15px 45px rgba(0,0,0,.4);
+  font-size: 12px;
+  animation: toastIn .28s cubic-bezier(.2,.7,.2,1) both;
+}
+
+.toast.success:before {
+  content: "✓";
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  color: #17291a;
+  background: var(--green);
+  font-weight: 800;
+}
+
+.toast.error:before {
+  content: "!";
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  color: #30080b;
+  background: var(--danger);
+  font-weight: 800;
+}
+
+.toast.out { animation: toastOut .2s ease forwards; }
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(12px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes toastOut {
+  to { opacity: 0; transform: translateY(8px); }
+}
+
+/* Confirm dialog */
+
+.confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(10,1,3,.78);
+  backdrop-filter: blur(9px);
+  opacity: 0;
+  visibility: hidden;
+  transition: .2s ease;
+}
+
+.confirm-backdrop.open { opacity: 1; visibility: visible; }
+
+.confirm-box {
+  width: min(100%, 390px);
+  padding: 25px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: #320a10;
+  transform: translateY(10px);
+  transition: transform .2s ease;
+}
+
+.confirm-backdrop.open .confirm-box { transform: translateY(0); }
+
+.confirm-box h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 9px;
+}
+
+.confirm-box p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.confirm-actions { display: flex; gap: 9px; margin-top: 20px; }
+.confirm-actions button { flex: 1; }
+
+/* Tools and backup */
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 13px;
+  padding: 20px;
+}
+
+.tool-card {
+  padding: 19px;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  background: rgba(255,255,255,.025);
+}
+
+.tool-icon { font-size: 23px; margin-bottom: 12px; }
+.tool-title { font-weight: 700; font-size: 13px; margin-bottom: 7px; }
+.tool-copy { color: var(--muted); font-size: 11px; line-height: 1.7; margin-bottom: 16px; }
+.tool-card .btn { width: 100%; }
+
+.notice {
+  margin-top: 18px;
+  padding: 16px 18px;
+  border: 1px solid rgba(216,177,106,.17);
+  border-radius: 15px;
+  color: var(--muted);
+  background: rgba(216,177,106,.035);
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.notice strong { color: var(--gold2); }
+
+.footer {
+  padding-top: 33px;
+  text-align: center;
+  color: rgba(255,241,220,.35);
+  font-size: 10px;
+  letter-spacing: 1.4px;
+}
+
+/* Mobile navigation */
+
+.mobile-nav { display: none; }
+
+@media (min-width: 1100px) {
+  .products-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .app { padding-top: 34px; }
+}
+
+@media (max-width: 760px) {
+  .app { padding: 18px 15px 100px; }
+  .topbar { padding-bottom: 19px; }
+  .brand-name { font-size: 26px; }
+  .top-status { padding: 9px 11px; font-size: 10px; }
+  .nav { display: none; }
+
+  .section-heading { margin-top: 25px; margin-bottom: 20px; }
+  .date-label { display: none; }
+
+  .stats { gap: 9px; margin-bottom: 26px; }
+  .stat-card { padding: 15px 12px; min-height: 105px; border-radius: 17px; }
+  .stat-label { font-size: 10px; margin-bottom: 12px; }
+  .stat-value { font-size: clamp(20px, 5vw, 27px); }
+  .stat-note { font-size: 9px; }
+
+  .products-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 11px; }
+  .product-card { padding: 15px; min-height: 218px; border-radius: 19px; }
+  .product-icon { width: 41px; height: 41px; font-size: 19px; border-radius: 13px; }
+  .product-name { font-size: 14px; margin-top: 19px; }
+  .product-desc { font-size: 10px; margin-bottom: 15px; }
+  .product-price { font-size: 14px; }
+  .product-price small { font-size: 9px; }
+  .add-label { font-size: 9px; padding: 6px 8px; }
+
+  .panel-head { padding: 17px; }
+  .history-list { padding: 5px 15px; }
+  .order-row { gap: 8px; }
+  .order-name { font-size: 12px; }
+  .order-total { font-size: 13px; }
+  .order-meta { font-size: 9px; }
+  .revenue-bar { padding: 16px; }
+  .revenue-number { font-size: 24px; }
+
+  .price-list { padding: 5px 16px; }
+  .price-row { grid-template-columns: minmax(0,1fr) 112px; gap: 10px; }
+  .price-name { font-size: 12px; }
+
+  .modal-backdrop { align-items: flex-end; padding: 0; }
+  .modal {
+    width: 100%;
+    max-height: 92dvh;
+    border-radius: 25px 25px 0 0;
+    padding-bottom: env(safe-area-inset-bottom);
+    transform: translateY(30px);
+  }
+  .modal-head { padding: 23px 20px 16px; }
+  .modal-body { padding: 19px 20px 24px; }
+  .modal-title { font-size: 25px; }
+  .toast-stack { right: 12px; bottom: 86px; }
+
+  .mobile-nav {
+    position: fixed;
+    z-index: 90;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 4px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 9px 9px calc(9px + env(safe-area-inset-bottom));
+    border-top: 1px solid rgba(216,177,106,.15);
+    background: rgba(28,5,8,.94);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  .mobile-nav .nav-btn {
+    flex-direction: column;
+    gap: 5px;
+    padding: 8px 3px;
+    border-radius: 12px;
+    font-size: 9px;
+  }
+  .mobile-nav .nav-btn svg { width: 19px; height: 19px; }
+  .tools-grid { padding: 13px; gap: 10px; }
+  .tool-card { padding: 14px; }
+}
+
+@media (max-width: 370px) {
+  .app { padding-left: 11px; padding-right: 11px; }
+  .product-card { padding: 12px; }
+  .product-name { font-size: 13px; }
+  .stats { gap: 6px; }
+  .stat-card { padding: 13px 9px; }
+  .stat-value { font-size: 19px; }
+}
+
+/* Reduced motion accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <path d="M14 11C10 13 9 18 12 24C16 32 22 38 30 40C36 42 40 38 40 34L31 28L25 33C20 30 17 27 15 22L20 17L14 11Z"
+            stroke="#f1d5a0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M24 8C29 8 33 12 33 17M27 3C35 3 40 9 40 17"
+            stroke="#d8b16a" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">missed.</div>
+        <div class="brand-sub">Order studio</div>
+      </div>
+    </div>
+    <div class="top-status"><span class="status-dot"></span> Ready for orders</div>
+  </header>
+
+  <nav class="nav" aria-label="Main navigation">
+    <button class="nav-btn active" data-page="home" onclick="navigate('home')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>
+      Overview
+    </button>
+    <button class="nav-btn" data-page="history" onclick="navigate('history')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5v5h5"/><path d="M5.5 9a8 8 0 1 1-.2 6"/><path d="M12 7v5l3 2"/></svg>
+      Order history
+    </button>
+    <button class="nav-btn" data-page="prices" onclick="navigate('prices')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      Prices
+    </button>
+    <button class="nav-btn" data-page="tools" onclick="navigate('tools')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg>
+      Tools
+    </button>
+  </nav>
+
+  <main>
+    <!-- OVERVIEW -->
+    <section class="page active" id="page-home">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">Your business, at a glance</div>
+          <h1>Good to see you.</h1>
+          <p class="subtitle">Every order, every detail — all in one place.</p>
+        </div>
+        <div class="date-label" id="todayLabel"></div>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-label">Today's revenue</div>
+          <div class="stat-value" id="todayRevenue">AED 0</div>
+          <div class="stat-note">Today's completed orders</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Today's orders</div>
+          <div class="stat-value" id="todayOrders">0</div>
+          <div class="stat-note">Orders recorded today</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">All-time revenue</div>
+          <div class="stat-value" id="allRevenue">AED 0</div>
+          <div class="stat-note">Total recorded sales</div>
+        </div>
+      </div>
+
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">The menu</div>
+          <h2>Start an order</h2>
+          <p class="subtitle">Choose an item to get started.</p>
+        </div>
+      </div>
+
+      <div class="products-grid" id="productsGrid"></div>
+
+      <div class="revenue-bar">
+        <div>
+          <div class="revenue-label">Total revenue · all orders</div>
+          <div class="revenue-number" id="homeTotal">AED 0.00</div>
+        </div>
+        <button class="btn btn-secondary" onclick="navigate('history')">View history →</button>
+      </div>
+    </section>
+
+    <!-- HISTORY -->
+    <section class="page" id="page-history">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">Every sale, saved</div>
+          <h1>Order history</h1>
+          <p class="subtitle">Review sales, check totals, or undo a mistake.</p>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-label">All-time revenue</div>
+          <div class="stat-value" id="historyRevenue">AED 0</div>
+          <div class="stat-note">Total recorded sales</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Orders recorded</div>
+          <div class="stat-value" id="historyCount">0</div>
+          <div class="stat-note">Individual entries</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Items sold</div>
+          <div class="stat-value" id="itemsSold">0</div>
+          <div class="stat-note">Total quantities</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Recent orders</div>
+            <div class="panel-sub">Newest orders appear first</div>
+          </div>
+          <button class="btn btn-secondary btn-small" onclick="exportCSV()">↓ Export CSV</button>
+        </div>
+        <div class="history-list" id="historyList"></div>
+      </div>
+
+      <div class="revenue-bar">
+        <div>
+          <div class="revenue-label">Total revenue</div>
+          <div class="revenue-number" id="historyTotal">AED 0.00</div>
+        </div>
+        <button class="btn btn-danger btn-small" onclick="confirmClearHistory()">Clear history</button>
+      </div>
+    </section>
+
+    <!-- PRICES -->
+    <section class="page" id="page-prices">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">Your menu, your prices</div>
+          <h1>Price settings</h1>
+          <p class="subtitle">Change your default selling prices whenever you need.</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Menu prices</div>
+            <div class="panel-sub">Prices are in UAE dirhams (AED).</div>
+          </div>
+          <button class="btn btn-secondary btn-small" onclick="resetPrices()">Reset defaults</button>
+        </div>
+        <div class="price-list" id="priceList"></div>
+        <div style="padding:0 22px 22px">
+          <button class="btn btn-primary" style="width:100%" onclick="savePrices()">Save price changes ✓</button>
+        </div>
+      </div>
+
+      <div class="notice">
+        <strong>Good to know:</strong> changing a default price affects new orders. Previously recorded orders keep their original prices. You can still edit the price for an individual order before adding it.
+      </div>
+    </section>
+
+    <!-- TOOLS -->
+    <section class="page" id="page-tools">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">Stay in control</div>
+          <h1>Business tools</h1>
+          <p class="subtitle">Back up your records and keep your data safe.</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Export & backup</div>
+            <div class="panel-sub">Download copies of your business records.</div>
+          </div>
+        </div>
+        <div class="tools-grid">
+          <div class="tool-card">
+            <div class="tool-icon">↧</div>
+            <div class="tool-title">Export order history</div>
+            <div class="tool-copy">Download a spreadsheet-friendly CSV file with your orders and totals.</div>
+            <button class="btn btn-secondary" onclick="exportCSV()">Download CSV</button>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon">◇</div>
+            <div class="tool-title">Back up everything</div>
+            <div class="tool-copy">Save a JSON backup containing your orders and default prices.</div>
+            <button class="btn btn-primary" onclick="exportBackup()">Download backup</button>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon">↻</div>
+            <div class="tool-title">Restore a backup</div>
+            <div class="tool-copy">Load a previously downloaded JSON backup onto this browser.</div>
+            <button class="btn btn-secondary" onclick="document.getElementById('backupFile').click()">Restore backup</button>
+            <input type="file" id="backupFile" accept=".json,application/json" hidden onchange="importBackup(event)">
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon">✦</div>
+            <div class="tool-title">Reset menu prices</div>
+            <div class="tool-copy">Return the default menu prices to the original values.</div>
+            <button class="btn btn-secondary" onclick="resetPrices()">Reset prices</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="notice">
+        <strong>Important — local storage:</strong> your orders are saved in this browser on this device. They do not automatically sync to another phone, iPad, or computer. Avoid clearing browser data unless you have a backup. Export backups regularly.
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">MISSED. &nbsp; · &nbsp; MADE FOR YOUR EVERYDAY ORDERS</footer>
+</div>
+
+<!-- Mobile navigation -->
+<nav class="mobile-nav" aria-label="Mobile navigation">
+  <button class="nav-btn active" data-page="home" onclick="navigate('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>
+    Home
+  </button>
+  <button class="nav-btn" data-page="history" onclick="navigate('history')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5v5h5"/><path d="M5.5 9a8 8 0 1 1-.2 6"/><path d="M12 7v5l3 2"/></svg>
+    History
+  </button>
+  <button class="nav-btn" data-page="prices" onclick="navigate('prices')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    Prices
+  </button>
+  <button class="nav-btn" data-page="tools" onclick="navigate('tools')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg>
+    Tools
+  </button>
+</nav>
+
+<!-- Order modal -->
+<div class="modal-backdrop" id="orderBackdrop" onclick="backdropClose(event)">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalProductName">
+    <div class="modal-head">
+      <div>
+        <div class="eyebrow">New order</div>
+        <div class="modal-title" id="modalProductName">Product</div>
+        <div class="modal-desc" id="modalProductDesc">Customize your order below.</div>
+      </div>
+      <button class="close-btn" onclick="closeOrder()" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="field" id="flavorField" hidden>
+        <label class="field-label">Choose your flavour</label>
+        <div class="flavor-grid" id="flavorOptions"></div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Quantity</label>
+        <div class="quantity-row">
+          <div>
+            <div style="font-size:12px;font-weight:700">Number of items</div>
+            <div style="font-size:10px;color:var(--muted);margin-top:5px">Choose between 1 and 5</div>
+          </div>
+          <div class="quantity-controls">
+            <button class="qty-btn" onclick="changeQty(-1)" aria-label="Decrease quantity">−</button>
+            <span class="qty-number" id="qtyNumber">1</span>
+            <button class="qty-btn" onclick="changeQty(1)" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="orderPrice">Price per item</label>
+        <div class="price-edit">
+          <div class="price-input-wrap">
+            <span>AED</span>
+            <input class="price-input" type="number" id="orderPrice" min="0" max="100000" step="0.5" inputmode="decimal" value="0" oninput="updatePreview()">
+          </div>
+        </div>
+      </div>
+
+      <div class="total-preview">
+        <div class="preview-row">
+          <div>
+            <div class="preview-label">Order total</div>
+            <div style="font-size:10px;color:var(--muted);margin-top:5px" id="previewBreakdown">1 item × AED 0.00</div>
+          </div>
+          <div class="preview-total" id="previewTotal">AED 0.00</div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary modal-submit" onclick="addOrder()">Add order to history <span>→</span></button>
+      <p class="modal-footer-note">Your order will be saved in this browser.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Confirmation dialog -->
+<div class="confirm-backdrop" id="confirmBackdrop">
+  <div class="confirm-box" role="dialog" aria-modal="true">
+    <div class="eyebrow">Just checking</div>
+    <h3 id="confirmTitle">Are you sure?</h3>
+    <p id="confirmMessage">This action cannot be undone.</p>
+    <div class="confirm-actions">
+      <button class="btn btn-secondary" onclick="closeConfirm()">Cancel</button>
+      <button class="btn btn-danger" id="confirmYes">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+<script>
+'use strict';
+
+const defaultItems = [
+  {
+    id: 'v60hot',
+    name: 'V60 Hot',
+    price: 35,
+    icon: '☕',
+    desc: 'Freshly brewed, served hot.',
+    flavors: ['Salted Caramel', 'Blueberry Blast Cake', 'Cookies and Dream']
+  },
+  {
+    id: 'v60cold',
+    name: 'V60 Cold',
+    price: 35,
+    icon: '🧊',
+    desc: 'A chilled coffee moment.',
+    flavors: ['Cookies and Dream', 'Salted Caramel', 'Blueberry Blast Cake']
+  },
+  {
+    id: 'dirtyhibiscus',
+    name: 'Dirty Hibiscus',
+    price: 25,
+    icon: '🌺',
+    desc: 'A bold, floral signature drink.',
+    flavors: []
+  },
+  {
+    id: 'mojito',
+    name: 'Passion Fruit Mojito',
+    price: 20,
+    icon: '🍹',
+    desc: 'Bright, fruity and refreshing.',
+    flavors: []
+  },
+  {
+    id: 'scoopcookies',
+    name: 'Scoop Cookies',
+    price: 32,
+    icon: '🍪',
+    desc: 'A sweet, freshly baked treat.',
+    flavors: []
+  },
+  {
+    id: 'honeypudding',
+    name: 'Honey Pudding',
+    price: 20,
+    icon: '🍮',
+    desc: 'A smooth, sweet dessert.',
+    flavors: []
+  },
+  {
+    id: 'cheesecake',
+    name: 'Cheesecake',
+    price: 15,
+    icon: '🍰',
+    desc: 'A creamy slice of something special.',
+    flavors: []
+  }
+];
+
+const STORAGE_ORDERS = 'missedOrders_v3';
+const STORAGE_PRICES = 'missedPrices_v3';
+
+function safeRead(key, fallback) {
+  try {
+    const value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : fallback;
+  } catch (error) {
+    return fallback;
+  }
+}
+
+let items = defaultItems.map(item => ({...item}));
+let savedPrices = safeRead(STORAGE_PRICES, {});
+let prices = Object.fromEntries(
+  items.map(item => [
+    item.id,
+    Number.isFinite(Number(savedPrices[item.id])) && savedPrices[item.id] !== null
+      ? Number(savedPrices[item.id])
+      : item.price
+  ])
+);
+
+let orders = safeRead(STORAGE_ORDERS, []);
+if (!Array.isArray(orders)) orders = [];
+
+let selectedProduct = null;
+let selectedFlavor = '';
+let quantity = 1;
+let confirmAction = null;
+let lastDeletedOrder = null;
+
+const money = amount => 'AED ' + (Number(amount) || 0).toLocaleString('en-AE', {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+});
+
+const getProduct = id => items.find(item => item.id === id);
+
+function saveOrders() {
+  try {
+    localStorage.setItem(STORAGE_ORDERS, JSON.stringify(orders));
+    return true;
+  } catch (error) {
+    toast('Could not save. Please export a backup and check browser storage.', 'error', 5000);
+    return false;
+  }
+}
+
+function savePriceStorage() {
+  try {
+    localStorage.setItem(STORAGE_PRICES, JSON.stringify(prices));
+    return true;
+  } catch (error) {
+    toast('Could not save price settings in this browser.', 'error');
+    return false;
+  }
+}
+
+function navigate(page) {
+  const validPages = ['home', 'history', 'prices', 'tools'];
+  if (!validPages.includes(page)) return;
+
+  document.querySelectorAll('.page').forEach(section => {
+    section.classList.toggle('active', section.id === 'page-' + page);
+  });
+
+  document.querySelectorAll('.nav-btn[data-page]').forEach(button => {
+    button.classList.toggle('active', button.dataset.page === page);
+  });
+
+  if (page === 'history') renderHistory();
+  if (page === 'prices') renderPrices();
+
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function renderProducts() {
+  const grid = document.getElementById('productsGrid');
+  grid.innerHTML = items.map(item => `
+    <button class="product-card" onclick="openOrder('${item.id}')" aria-label="Start order for ${escapeHTML(item.name)}">
+      <div class="product-top">
+        <div class="product-icon">${item.icon}</div>
+        <div class="product-arrow">↗</div>
+      </div>
+      <div class="product-name">${escapeHTML(item.name)}</div>
+      <div class="product-desc">${escapeHTML(item.desc)}</div>
+      <div class="product-bottom">
+        <div class="product-price">${money(prices[item.id])} <small>/ item</small></div>
+        <div class="add-label">+ Add</div>
+      </div>
+    </button>
+  `).join('');
+}
+
+function getOrderTotal(order) {
+  return Number(order.price || 0) * Number(order.quantity || 1);
+}
+
+function isToday(timestamp) {
+  const d = new Date(timestamp);
+  const now = new Date();
+  return !Number.isNaN(d.getTime()) &&
+    d.getFullYear() === now.getFullYear() &&
+    d.getMonth() === now.getMonth() &&
+    d.getDate() === now.getDate();
+}
+
+function updateDashboard() {
+  const total = orders.reduce((sum, order) => sum + getOrderTotal(order), 0);
+  const todayOrders = orders.filter(order => isToday(order.timestamp));
+  const todayTotal = todayOrders.reduce((sum, order) => sum + getOrderTotal(order), 0);
+  const itemCount = orders.reduce((sum, order) => sum + Number(order.quantity || 1), 0);
+
+  document.getElementById('todayRevenue').textContent = money(todayTotal);
+  document.getElementById('todayOrders').textContent = todayOrders.length;
+  document.getElementById('allRevenue').textContent = money(total);
+  document.getElementById('homeTotal').textContent = money(total);
+
+  document.getElementById('historyRevenue').textContent = money(total);
+  document.getElementById('historyCount').textContent = orders.length;
+  document.getElementById('itemsSold').textContent = itemCount;
+  document.getElementById('historyTotal').textContent = money(total);
+
+  document.getElementById('todayLabel').textContent =
+    new Date().toLocaleDateString('en-AE', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+}
+
+function formatDate(timestamp) {
+  const date = new Date(timestamp);
+  if (Number.isNaN(date.getTime())) return 'Date unavailable';
+
+  return date.toLocaleDateString('en-AE', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  }) + ' · ' + date.toLocaleTimeString('en-AE', {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
+
+function renderHistory() {
+  const list = document.getElementById('historyList');
+  const sorted = [...orders].sort((a,b) => Number(b.timestamp) - Number(a.timestamp));
+
+  if (!sorted.length) {
+    list.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">✦</div>
+        <div class="empty-title">Your story starts here.</div>
+        <div class="empty-copy">Once you add your first order, it'll appear here.<br>Ready when you are.</div>
+        <button class="btn btn-primary" style="margin-top:18px" onclick="navigate('home')">Start your first order →</button>
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = sorted.map(order => {
+    const product = getProduct(order.productId);
+    const name = order.productName || (product ? product.name : 'Menu item');
+    const detail = order.flavor ? ' · ' + escapeHTML(order.flavor) : '';
+    return `
+      <div class="order-row">
+        <div class="order-main">
+          <div class="order-name">${escapeHTML(name)}${detail}</div>
+          <div class="order-meta">${formatDate(order.timestamp)}<br>${Number(order.quantity || 1)} × ${money(order.price)}</div>
+        </div>
+        <div class="order-right">
+          <div class="order-total">${money(getOrderTotal(order))}</div>
+          <div class="order-actions">
+            <button class="btn btn-secondary btn-small" onclick="undoOrder('${order.id}')">Undo</button>
+            <button class="btn btn-danger btn-small" onclick="deleteOrder('${order.id}')">Delete</button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function openOrder(id) {
+  selectedProduct = getProduct(id);
+  if (!selectedProduct) return;
+
+  quantity = 1;
+  selectedFlavor = selectedProduct.flavors.length ? selectedProduct.flavors[0] : '';
+
+  document.getElementById('modalProductName').textContent = selectedProduct.name;
+  document.getElementById('modalProductDesc').textContent = selectedProduct.desc;
+  document.getElementById('orderPrice').value = Number(prices[id]).toFixed(2);
+  document.getElementById('qtyNumber').textContent = quantity;
+
+  const flavorField = document.getElementById('flavorField');
+  const flavorOptions = document.getElementById('flavorOptions');
+
+  flavorField.hidden = !selectedProduct.flavors.length;
+
+  flavorOptions.innerHTML = selectedProduct.flavors.map((flavor, index) => `
+    <button class="flavor-option ${index === 0 ? 'selected' : ''}" onclick="selectFlavor(this, '${escapeJS(flavor)}')">
+      <span class="radio-dot"></span>
+      <span class="flavor-text">${escapeHTML(flavor)}</span>
+    </button>
+  `).join('');
+
+  updatePreview();
+
+  const backdrop = document.getElementById('orderBackdrop');
+  backdrop.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  setTimeout(() => {
+    const closeButton = backdrop.querySelector('.close-btn');
+    if (closeButton) closeButton.focus({preventScroll:true});
+  }, 80);
+}
+
+function selectFlavor(button, flavor) {
+  selectedFlavor = flavor;
+  document.querySelectorAll('.flavor-option').forEach(option => {
+    option.classList.toggle('selected', option === button);
+  });
+}
+
+function changeQty(amount) {
+  quantity = Math.max(1, Math.min(5, quantity + amount));
+  document.getElementById('qtyNumber').textContent = quantity;
+  updatePreview();
+}
+
+function updatePreview() {
+  const rawPrice = Number(document.getElementById('orderPrice').value);
+  const price = Number.isFinite(rawPrice) ? Math.max(0, rawPrice) : 0;
+  document.getElementById('previewBreakdown').textContent =
+    `${quantity} item${quantity === 1 ? '' : 's'} × ${money(price)}`;
+  document.getElementById('previewTotal').textContent = money(price * quantity);
+}
+
+function closeOrder() {
+  document.getElementById('orderBackdrop').classList.remove('open');
+  document.body.style.overflow = '';
+  selectedProduct = null;
+}
+
+function backdropClose(event) {
+  if (event.target.id === 'orderBackdrop') closeOrder();
+}
+
+function addOrder() {
+  if (!selectedProduct) return;
+
+  const rawPrice = Number(document.getElementById('orderPrice').value);
+  if (!Number.isFinite(rawPrice) || rawPrice < 0 || rawPrice > 100000) {
+    toast('Please enter a valid price.', 'error');
+    return;
+  }
+
+  if (selectedProduct.flavors.length && !selectedFlavor) {
+    toast('Please choose a flavour.', 'error');
+    return;
+  }
+
+  const order = {
+    id: makeId(),
+    productId: selectedProduct.id,
+    productName: selectedProduct.name,
+    flavor: selectedFlavor,
+    quantity,
+    price: Math.round(rawPrice * 100) / 100,
+    timestamp: Date.now()
+  };
+
+  orders.push(order);
+  if (!saveOrders()) {
+    orders = orders.filter(item => item.id !== order.id);
+    return;
+  }
+
+  const productName = selectedProduct.name;
+  const orderTotal = getOrderTotal(order);
+
+  closeOrder();
+  refreshAll();
+  toast(`${productName} added · ${money(orderTotal)}`, 'success');
+}
+
+function deleteOrder(id) {
+  const order = orders.find(item => item.id === id);
+  if (!order) return;
+
+  askConfirm(
+    'Delete this order?',
+    'This removes the selected order from your history. You can use Undo to restore it immediately afterward.',
+    () => {
+      const previous = orders;
+      lastDeletedOrder = {...order};
+      orders = orders.filter(item => item.id !== id);
+      if (!saveOrders()) {
+        orders = previous;
+        return;
+      }
+      refreshAll();
+      toast('Order deleted. Use Undo to restore it.', 'success', 5000, true);
+    },
+    'Delete order'
+  );
+}
+
+function undoOrder(id) {
+  const index = orders.findIndex(item => item.id === id);
+  if (index < 0) {
+    toast('This order is no longer in history.', 'error');
+    return;
+  }
+
+  const removed = orders.splice(index, 1)[0];
+  if (!saveOrders()) {
+    orders.splice(index, 0, removed);
+    return;
+  }
+
+  lastDeletedOrder = removed;
+  refreshAll();
+  toast('Order removed. Use Undo to restore it.', 'success', 5000, true);
+}
+
+function restoreLastOrder() {
+  if (!lastDeletedOrder) {
+    toast('There is no recently removed order to restore.', 'error');
+    return;
+  }
+
+  if (orders.some(order => order.id === lastDeletedOrder.id)) {
+    toast('That order is already in your history.', 'error');
+    return;
+  }
+
+  orders.push(lastDeletedOrder);
+  if (!saveOrders()) {
+    orders.pop();
+    return;
+  }
+
+  lastDeletedOrder = null;
+  refreshAll();
+  toast('Order restored.', 'success');
+}
+
+function confirmClearHistory() {
+  if (!orders.length) {
+    toast('Your order history is already empty.');
+    return;
+  }
+
+  askConfirm(
+    'Clear all orders?',
+    'This will permanently remove every recorded order from this browser. Download a backup first if you want to keep them.',
+    () => {
+      const oldOrders = orders;
+      orders = [];
+      if (!saveOrders()) {
+        orders = oldOrders;
+        return;
+      }
+      lastDeletedOrder = null;
+      refreshAll();
+      toast('Order history cleared.');
+    },
+    'Clear everything'
+  );
+}
+
+function renderPrices() {
+  const list = document.getElementById('priceList');
+  list.innerHTML = items.map(item => `
+    <div class="price-row">
+      <div>
+        <div class="price-name">${item.icon} &nbsp; ${escapeHTML(item.name)}</div>
+        <div class="price-description">${item.flavors.length ? 'Includes flavour choices' : 'Standard menu item'}</div>
+      </div>
+      <div class="price-input-wrap">
+        <span>AED</span>
+        <input class="price-input" type="number" min="0" max="100000" step="0.5" inputmode="decimal" id="price-${item.id}" value="${Number(prices[item.id]).toFixed(2)}" aria-label="${escapeHTML(item.name)} price">
+      </div>
+    </div>
+  `).join('');
+}
+
+function savePrices() {
+  const updated = {...prices};
+
+  for (const item of items) {
+    const input = document.getElementById('price-' + item.id);
+    const value = Number(input.value);
+
+    if (!Number.isFinite(value) || value < 0 || value > 100000) {
+      toast(`Enter a valid price for ${item.name}.`, 'error');
+      input.focus();
+      return;
+    }
+
+    updated[item.id] = Math.round(value * 100) / 100;
+  }
+
+  const previous = prices;
+  prices = updated;
+
+  if (!savePriceStorage()) {
+    prices = previous;
+    return;
+  }
+
+  renderProducts();
+  renderPrices();
+  toast('Menu prices saved successfully.', 'success');
+}
+
+function resetPrices() {
+  askConfirm(
+    'Reset menu prices?',
+    'This will restore the default menu prices. Your existing order history will remain unchanged.',
+    () => {
+      prices = Object.fromEntries(items.map(item => [item.id, item.price]));
+      if (!savePriceStorage()) return;
+      renderPrices();
+      renderProducts();
+      toast('Default prices restored.', 'success');
+    },
+    'Reset prices'
+  );
+}
+
+function exportCSV() {
+  if (!orders.length) {
+    toast('There are no orders to export yet.', 'error');
+    return;
+  }
+
+  const rows = [
+    ['Order ID', 'Date', 'Product', 'Flavour', 'Quantity', 'Price Each (AED)', 'Total (AED)'],
+    ...[...orders].sort((a,b) => Number(a.timestamp)-Number(b.timestamp)).map(order => [
+      order.id,
+      formatDate(order.timestamp),
+      order.productName || (getProduct(order.productId) || {}).name || 'Menu item',
+      order.flavor || '',
+      order.quantity || 1,
+      Number(order.price || 0).toFixed(2),
+      getOrderTotal(order).toFixed(2)
+    ])
+  ];
+
+  const csv = rows.map(row => row.map(value => {
+    const text = String(value ?? '');
+    return '"' + text.replace(/"/g, '""') + '"';
+  }).join(',')).join('\r\n');
+
+  downloadFile('\uFEFF' + csv, 'missed-orders-' + dateStamp() + '.csv', 'text/csv;charset=utf-8;');
+  toast('Your order history is ready to download.', 'success');
+}
+
+function exportBackup() {
+  const data = {
+    app: 'missed-order-tracker',
+    version: 3,
+    exportedAt: new Date().toISOString(),
+    orders,
+    prices
+  };
+
+  downloadFile(JSON.stringify(data, null, 2), 'missed-backup-' + dateStamp() + '.json', 'application/json');
+  toast('Backup created successfully.', 'success');
+}
+
+function importBackup(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(reader.result);
+
+      if (!data || !Array.isArray(data.orders) || !data.prices || typeof data.prices !== 'object') {
+        throw new Error('Invalid backup format');
+      }
+
+      const validOrders = data.orders.every(order =>
+        order &&
+        typeof order.id === 'string' &&
+        typeof order.productId === 'string' &&
+        Number.isFinite(Number(order.price)) &&
+        Number(order.price) >= 0 &&
+        Number.isFinite(Number(order.quantity)) &&
+        Number(order.quantity) >= 1 &&
+        Number.isFinite(Number(order.timestamp))
+      );
+
+      if (!validOrders) throw new Error('Backup contains invalid orders');
+
+      askConfirm(
+        'Restore this backup?',
+        `This will replace the current order history with ${data.orders.length} backed-up order(s) and restore its menu prices.`,
+        () => {
+          const oldOrders = orders;
+          const oldPrices = prices;
+
+          orders = data.orders.map(order => ({...order}));
+          prices = Object.fromEntries(items.map(item => {
+            const value = Number(data.prices[item.id]);
+            return [item.id, Number.isFinite(value) && value >= 0 && value <= 100000 ? value : item.price];
+          }));
+
+          if (!saveOrders() || !savePriceStorage()) {
+            orders = oldOrders;
+            prices = oldPrices;
+            saveOrders();
+            savePriceStorage();
+            refreshAll();
+            return;
+          }
+
+          lastDeletedOrder = null;
+          refreshAll();
+          toast('Backup restored successfully.', 'success');
+        },
+        'Restore backup'
+      );
+    } catch (error) {
+      toast('That file is not a valid Missed backup.', 'error', 5000);
+    }
+
+    event.target.value = '';
+  };
+
+  reader.onerror = () => {
+    toast('Could not read that file.', 'error');
+    event.target.value = '';
+  };
+
+  reader.readAsText(file);
+}
+
+function downloadFile(content, filename, type) {
+  const blob = new Blob([content], {type});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
+function dateStamp() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function askConfirm(title, message, action, yesText = 'Confirm') {
+  confirmAction = action;
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmMessage').textContent = message;
+  document.getElementById('confirmYes').textContent = yesText;
+  document.getElementById('confirmBackdrop').classList.add('open');
+}
+
+function closeConfirm() {
+  document.getElementById('confirmBackdrop').classList.remove('open');
+  confirmAction = null;
+}
+
+document.getElementById('confirmYes').addEventListener('click', () => {
+  const action = confirmAction;
+  closeConfirm();
+  if (action) action();
+});
+
+function toast(message, type = '', duration = 3000, withUndo = false) {
+  const stack = document.getElementById('toastStack');
+  const element = document.createElement('div');
+  element.className = 'toast ' + type;
+
+  const text = document.createElement('span');
+  text.textContent = message;
+  element.appendChild(text);
+
+  if (withUndo) {
+    const button = document.createElement('button');
+    button.className = 'btn btn-secondary btn-small';
+    button.textContent = 'Undo';
+    button.style.marginLeft = 'auto';
+    button.style.pointerEvents = 'auto';
+    button.onclick = () => {
+      restoreLastOrder();
+      element.remove();
+    };
+    element.appendChild(button);
+  }
+
+  stack.appendChild(element);
+
+  setTimeout(() => {
+    if (!element.isConnected) return;
+    element.classList.add('out');
+    setTimeout(() => element.remove(), 220);
+  }, duration);
+}
+
+function makeId() {
+  if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  return 'order-' + Date.now() + '-' + Math.random().toString(36).slice(2,9);
+}
+
+function escapeHTML(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
+  }[char]));
+}
+
+function escapeJS(value) {
+  return String(value ?? '')
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/\n/g, '\\n')
+    .replace(/\r/g, '\\r');
+}
+
+function refreshAll() {
+  renderProducts();
+  updateDashboard();
+  renderHistory();
+}
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') {
+    closeOrder();
+    closeConfirm();
+  }
+});
+
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) updateDashboard();
+});
+
+renderProducts();
+updateDashboard();
+renderHistory();
+</script>
+</body>
+</html>
