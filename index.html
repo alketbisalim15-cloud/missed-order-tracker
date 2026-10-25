@@ -2,27 +2,29 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#841522">
-<title>missed. — Order Tracker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#850814">
+<title>missed. — Coffee & Orders</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  --bg: #1a0508;
-  --panel: #30090f;
-  --panel-light: #3a1017;
-  --red: #841522;
-  --red-light: #a12838;
+  --bg: #190609;
+  --surface: #25080d;
+  --surface-2: #310b12;
+  --surface-3: #3b1018;
+  --red: #850814;
+  --red-hover: #a01625;
   --cream: #fff1dc;
   --muted: #bca9a5;
-  --gold: #d8b16a;
-  --border: rgba(255, 241, 220, .12);
-  --green: #8ec7a0;
-  --shadow: 0 18px 55px rgba(0,0,0,.22);
+  --gold: #d9b575;
+  --green: #91cba0;
+  --border: rgba(255,241,220,.105);
+  --ease: cubic-bezier(.22,1,.36,1);
+  --shadow: 0 20px 60px rgba(0,0,0,.25);
 }
 
 * {
@@ -32,15 +34,19 @@
 
 html {
   scroll-behavior: smooth;
+  background: var(--bg);
 }
 
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--cream);
-  font-family: "DM Sans", sans-serif;
   min-height: 100vh;
-  padding-bottom: 90px;
+  color: var(--cream);
+  background:
+    radial-gradient(ellipse at 50% -15%, rgba(133,8,20,.18), transparent 55%),
+    var(--bg);
+  font-family: "DM Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: calc(30px + env(safe-area-inset-bottom));
 }
 
 button, input, select {
@@ -58,124 +64,152 @@ select:focus-visible {
   outline-offset: 3px;
 }
 
-button,
-.product-card,
-.nav-button,
-.order-row,
-.stat-card {
-  transition:
-    background-color .3s ease,
-    color .3s ease,
-    border-color .3s ease,
-    box-shadow .35s ease,
-    transform .35s cubic-bezier(.22,1,.36,1),
-    opacity .3s ease;
+button, a, input, select {
+  -webkit-tap-highlight-color: transparent;
 }
 
 button:active {
-  transform: scale(.98);
+  transform: scale(.975);
 }
 
 .app {
-  width: min(1150px, 100%);
+  width: min(1180px,100%);
   margin: auto;
-  padding: 25px 24px 45px;
+  padding: 25px 28px 45px;
 }
+
+/* HEADER */
 
 header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  padding-bottom: 24px;
+  align-items: center;
+  gap: 18px;
+  padding: 4px 0 23px;
   border-bottom: 1px solid var(--border);
 }
 
 .brand {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 13px;
   color: var(--cream);
   text-decoration: none;
+  min-width: 0;
 }
 
-.brand-mark {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-family: "Playfair Display", serif;
-  font-size: 38px;
-  line-height: 1;
+.logo-circle {
+  width: 94px;
+  height: 94px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  padding: 13px 8px;
+  background:
+    radial-gradient(circle at 35% 25%, #a10b1a 0%, #8d0613 55%, #780511 100%);
+  border: 1.5px solid rgba(255,241,220,.15);
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,.07),
+    0 7px 25px rgba(0,0,0,.15);
+  transition: transform .65s var(--ease), box-shadow .65s var(--ease);
+}
+
+.brand:hover .logo-circle {
+  transform: scale(1.035);
+  box-shadow: 0 10px 30px rgba(133,8,20,.2);
+}
+
+/* Editable vector logo: phone handset replaces the i */
+
+.missed-logo {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.brand-name {
+  font-family: "Outfit", sans-serif;
   font-weight: 700;
-  letter-spacing: -2px;
-}
-
-.brand-mark .phone {
-  color: var(--gold);
-  font-family: "DM Sans", sans-serif;
-  font-size: 29px;
-  letter-spacing: 0;
-  transform: rotate(-10deg);
-  display: inline-block;
-}
-
-.brand-mark .period {
-  color: var(--gold);
+  font-size: 23px;
+  letter-spacing: -.8px;
 }
 
 .brand-caption {
-  margin-top: 7px;
-  color: var(--muted);
+  margin-top: 4px;
   font-size: 10px;
-  letter-spacing: 2px;
+  letter-spacing: 1.8px;
+  color: var(--muted);
   text-transform: uppercase;
 }
 
 .header-right {
-  text-align: right;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .status {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 11px;
+  padding: 10px 13px;
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  background: rgba(255,255,255,.02);
 }
 
 .status-dot {
   width: 7px;
   height: 7px;
-  background: var(--green);
   border-radius: 50%;
-  box-shadow: 0 0 10px rgba(142,199,160,.4);
+  background: var(--green);
+  box-shadow: 0 0 12px rgba(145,203,160,.4);
 }
+
+/* NAVIGATION */
 
 .desktop-nav {
   display: flex;
-  gap: 8px;
-  margin: 24px 0 32px;
+  gap: 7px;
+  margin: 22px 0 32px;
 }
 
 .nav-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 16px;
   border: 1px solid transparent;
+  border-radius: 11px;
   background: transparent;
   color: var(--muted);
-  padding: 11px 17px;
-  border-radius: 10px;
-  font-size: 13px;
+  font-size: 12px;
+  font-weight: 600;
+  transition:
+    color .35s var(--ease),
+    background .35s var(--ease),
+    border-color .35s var(--ease),
+    transform .35s var(--ease);
 }
 
 .nav-button:hover {
   color: var(--cream);
-  background: rgba(255,255,255,.04);
+  background: rgba(255,255,255,.035);
 }
 
 .nav-button.active {
-  background: var(--red);
   color: var(--cream);
-  border-color: rgba(255,255,255,.08);
+  background: var(--red);
+  border-color: rgba(255,241,220,.09);
+  box-shadow: 0 5px 18px rgba(133,8,20,.13);
 }
+
+/* PAGE TRANSITIONS */
 
 .page {
   display: none;
@@ -183,12 +217,20 @@ header {
 
 .page.active {
   display: block;
-  animation: pageIn .4s ease both;
+  animation: pageEnter .55s var(--ease) both;
 }
 
-@keyframes pageIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translate3d(0,12px,0);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0,0,0);
+    filter: blur(0);
+  }
 }
 
 .page-heading {
@@ -196,16 +238,16 @@ header {
   justify-content: space-between;
   align-items: end;
   gap: 18px;
-  margin-bottom: 25px;
+  margin-bottom: 27px;
 }
 
 .eyebrow {
   color: var(--gold);
-  text-transform: uppercase;
-  letter-spacing: 2px;
   font-size: 10px;
+  letter-spacing: 2.1px;
   font-weight: 700;
-  margin-bottom: 9px;
+  text-transform: uppercase;
+  margin-bottom: 11px;
 }
 
 h1, h2, h3, p {
@@ -213,72 +255,88 @@ h1, h2, h3, p {
 }
 
 h1, h2, h3 {
-  font-family: "Playfair Display", serif;
+  font-family: "Outfit", sans-serif;
   font-weight: 500;
 }
 
 h1 {
-  font-size: clamp(29px, 5vw, 43px);
-  line-height: 1.15;
-  margin-bottom: 8px;
+  font-size: clamp(31px,5vw,47px);
+  line-height: 1.08;
+  letter-spacing: -1.4px;
+  margin-bottom: 10px;
 }
 
 h2 {
-  font-size: 25px;
+  font-size: 24px;
+  letter-spacing: -.5px;
   margin-bottom: 8px;
 }
 
 h3 {
-  font-size: 19px;
+  font-size: 18px;
   margin-bottom: 8px;
 }
 
 .subtitle {
   color: var(--muted);
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: 12px;
+  line-height: 1.7;
   margin-bottom: 0;
 }
 
+/* STAT CARDS */
+
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3,minmax(0,1fr));
   gap: 14px;
-  margin-bottom: 34px;
+  margin-bottom: 36px;
 }
 
 .stat-card {
-  background: var(--panel);
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(140deg,rgba(255,255,255,.025),transparent 65%),var(--surface);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 20px;
+  border-radius: 17px;
+  padding: 21px;
+  transition: transform .45s var(--ease), border-color .4s ease, background .4s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(217,181,117,.22);
 }
 
 .stat-label {
-  font-size: 12px;
   color: var(--muted);
-  margin-bottom: 14px;
+  font-size: 11px;
+  margin-bottom: 16px;
 }
 
 .stat-value {
-  font-family: "Playfair Display", serif;
-  font-size: clamp(25px, 4vw, 35px);
-  line-height: 1.1;
+  font-family: "Outfit",sans-serif;
+  font-weight: 500;
+  font-size: clamp(23px,3.8vw,35px);
+  line-height: 1.15;
+  letter-spacing: -.7px;
   overflow-wrap: anywhere;
 }
 
 .stat-note {
   color: var(--gold);
-  font-size: 11px;
-  margin-top: 10px;
+  font-size: 10px;
+  margin-top: 11px;
 }
+
+/* PRODUCTS */
 
 .section-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 15px;
-  margin: 35px 0 17px;
+  gap: 12px;
+  margin: 34px 0 17px;
 }
 
 .section-heading h2 {
@@ -286,99 +344,138 @@ h3 {
 }
 
 .text-button {
-  background: none;
+  background: transparent;
   border: none;
   color: var(--gold);
-  font-size: 12px;
+  font-size: 11px;
   padding: 8px 0;
+  transition: opacity .25s ease;
+}
+
+.text-button:hover {
+  opacity: .75;
 }
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0,1fr));
-  gap: 16px;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 15px;
 }
 
 .product-card {
   position: relative;
   min-width: 0;
   overflow: hidden;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 17px;
-  padding: 20px;
   display: flex;
   flex-direction: column;
+  padding: 21px;
+  border-radius: 17px;
+  background: linear-gradient(145deg,rgba(255,255,255,.025),transparent 70%),var(--surface);
+  border: 1px solid var(--border);
+  transition:
+    transform .5s var(--ease),
+    border-color .4s ease,
+    box-shadow .5s var(--ease),
+    background .4s ease;
+}
+
+.product-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(135deg,rgba(255,241,220,.035),transparent 45%);
+  transition: opacity .4s ease;
 }
 
 .product-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(216,177,106,.38);
-  box-shadow: var(--shadow);
+  transform: translateY(-5px);
+  border-color: rgba(217,181,117,.25);
+  box-shadow: 0 17px 36px rgba(0,0,0,.17);
+}
+
+.product-card:hover::after {
+  opacity: 1;
 }
 
 .product-icon {
-  width: 60px;
-  height: 60px;
   display: grid;
   place-items: center;
-  background: rgba(132,21,34,.24);
-  border: 1px solid rgba(216,177,106,.12);
+  width: 58px;
+  height: 58px;
+  font-size: 28px;
+  margin-bottom: 17px;
   border-radius: 15px;
-  font-size: 30px;
-  margin-bottom: 18px;
+  background: rgba(133,8,20,.2);
+  border: 1px solid rgba(217,181,117,.12);
+  transition: transform .5s var(--ease);
+}
+
+.product-card:hover .product-icon {
+  transform: translateY(-2px) scale(1.04);
 }
 
 .product-name {
-  font-family: "Playfair Display", serif;
-  font-size: 21px;
-  margin-bottom: 8px;
+  font-family: "Outfit",sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -.4px;
+  margin-bottom: 7px;
 }
 
 .product-description {
   color: var(--muted);
-  font-size: 12px;
-  line-height: 1.55;
-  min-height: 36px;
-  margin-bottom: 17px;
+  font-size: 11px;
+  line-height: 1.7;
+  min-height: 37px;
+  margin-bottom: 19px;
 }
 
 .product-bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 9px;
   margin-top: auto;
 }
 
 .product-price {
+  font-size: 14px;
   font-weight: 700;
-  font-size: 15px;
+  white-space: nowrap;
 }
 
 .add-button,
 .primary-button {
+  border: 1px solid rgba(255,241,220,.08);
   background: var(--red);
   color: var(--cream);
-  border: 1px solid rgba(255,255,255,.08);
   border-radius: 10px;
-  padding: 11px 15px;
-  font-weight: 600;
-  font-size: 12px;
+  padding: 11px 13px;
+  font-size: 11px;
+  font-weight: 700;
+  transition:
+    transform .35s var(--ease),
+    background .3s ease,
+    box-shadow .4s ease;
 }
 
 .add-button:hover,
 .primary-button:hover {
-  background: var(--red-light);
-  box-shadow: 0 6px 20px rgba(132,21,34,.22);
+  background: var(--red-hover);
+  box-shadow: 0 6px 20px rgba(133,8,20,.2);
+  transform: translateY(-1px);
 }
 
+/* ORDER HISTORY */
+
 .panel {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 16px;
   padding: 21px;
-  margin-bottom: 18px;
+  background: linear-gradient(145deg,rgba(255,255,255,.018),transparent 70%),var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  margin-bottom: 17px;
 }
 
 .panel-header {
@@ -386,7 +483,7 @@ h3 {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 17px;
+  margin-bottom: 18px;
 }
 
 .panel-header h2,
@@ -405,23 +502,34 @@ h3 {
   align-items: center;
   gap: 12px;
   padding: 15px;
-  background: rgba(255,255,255,.025);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 13px;
+  background: rgba(255,255,255,.018);
+  transition: background .3s ease, border-color .3s ease, transform .4s var(--ease);
 }
 
 .order-row:hover {
-  background: rgba(255,255,255,.045);
+  background: rgba(255,255,255,.035);
+  border-color: rgba(217,181,117,.17);
 }
 
 .order-row.order-arrive {
-  animation: orderArrive .55s cubic-bezier(.2,.8,.2,1) both;
+  animation: orderArrive .75s var(--ease) both;
 }
 
 @keyframes orderArrive {
-  0% { opacity: 0; transform: translateY(-18px) scale(.94); }
-  65% { opacity: 1; transform: translateY(3px) scale(1.015); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
+  0% {
+    opacity: 0;
+    transform: translate3d(0,-18px,0) scale(.97);
+  }
+  65% {
+    opacity: 1;
+    transform: translate3d(0,2px,0) scale(1.008);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale(1);
+  }
 }
 
 .order-main {
@@ -432,142 +540,102 @@ h3 {
 }
 
 .order-icon {
-  width: 42px;
-  height: 42px;
+  width: 43px;
+  height: 43px;
   display: grid;
   place-items: center;
   flex-shrink: 0;
-  background: rgba(132,21,34,.22);
   border-radius: 12px;
-  font-size: 22px;
+  background: rgba(133,8,20,.2);
+  font-size: 21px;
 }
 
 .order-name {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   overflow-wrap: anywhere;
 }
 
 .order-meta {
-  font-size: 11px;
   color: var(--muted);
-  line-height: 1.6;
+  font-size: 10px;
+  line-height: 1.8;
   margin-top: 4px;
-}
-
-.order-total {
-  text-align: right;
-  font-weight: 700;
-  font-size: 13px;
-  white-space: nowrap;
 }
 
 .order-actions {
   display: flex;
-  gap: 8px;
-  margin-top: 8px;
+  gap: 7px;
+  margin-top: 7px;
 }
 
-.small-button {
+.order-total {
+  text-align: right;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.small-button,
+.secondary-button,
+.danger-button {
   background: transparent;
   border: 1px solid var(--border);
+  border-radius: 8px;
   color: var(--muted);
-  border-radius: 7px;
-  padding: 5px 8px;
+  padding: 7px 10px;
   font-size: 10px;
+  transition: color .25s ease, border-color .25s ease, background .25s ease;
 }
 
-.small-button:hover {
+.small-button:hover,
+.secondary-button:hover {
   color: var(--cream);
-  border-color: var(--gold);
+  border-color: rgba(217,181,117,.4);
+}
+
+.danger-button {
+  color: #f0a2a2;
+}
+
+.danger-button:hover {
+  background: rgba(180,30,40,.1);
+  border-color: rgba(240,162,162,.3);
 }
 
 .empty-state {
+  padding: 39px 15px;
   text-align: center;
-  padding: 38px 15px;
   border: 1px dashed var(--border);
-  border-radius: 14px;
+  border-radius: 13px;
   color: var(--muted);
 }
 
 .empty-icon {
-  font-size: 30px;
-  margin-bottom: 12px;
+  font-size: 31px;
+  margin-bottom: 13px;
+}
+
+.empty-state h3 {
+  color: var(--cream);
+  font-size: 18px;
 }
 
 .empty-state p {
-  font-size: 12px;
-  line-height: 1.6;
+  font-size: 11px;
+  line-height: 1.7;
   margin-bottom: 0;
 }
 
-.toolbar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.secondary-button,
-.danger-button {
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--panel);
-  color: var(--cream);
-  padding: 10px 13px;
-  font-size: 12px;
-}
-
-.secondary-button:hover {
-  border-color: var(--gold);
-}
-
-.danger-button {
-  color: #f2a4a4;
-}
-
-.danger-button:hover {
-  background: rgba(180,30,40,.12);
-}
-
-.form-field {
-  display: grid;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.form-field label {
-  color: var(--muted);
-  font-size: 12px;
-}
-
-input, select {
-  width: 100%;
-  color: var(--cream);
-  background: rgba(0,0,0,.16);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px 13px;
-  outline: none;
-}
-
-input:focus, select:focus {
-  border-color: var(--gold);
-}
-
-select option {
-  background: var(--panel);
-  color: var(--cream);
-}
+/* PRICES */
 
 .price-list {
   display: grid;
-  gap: 10px;
 }
 
 .price-row {
   display: grid;
-  grid-template-columns: minmax(0,1fr) 120px;
+  grid-template-columns: minmax(0,1fr) 125px;
   align-items: center;
   gap: 15px;
   padding: 13px 0;
@@ -581,25 +649,28 @@ select option {
 .price-product {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 13px;
+  gap: 11px;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .price-product span:first-child {
   font-size: 22px;
 }
 
+/* TOOLS */
+
 .tools-grid {
   display: grid;
   grid-template-columns: repeat(2,minmax(0,1fr));
-  gap: 16px;
+  gap: 15px;
 }
 
 .tool-description {
   color: var(--muted);
-  font-size: 12px;
-  line-height: 1.7;
-  margin: 10px 0 17px;
+  font-size: 11px;
+  line-height: 1.8;
+  margin: 11px 0 18px;
 }
 
 .file-button {
@@ -609,7 +680,13 @@ select option {
   color: var(--cream);
   padding: 11px 14px;
   border-radius: 9px;
-  font-size: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  transition: background .3s ease;
+}
+
+.file-button:hover {
+  background: var(--red-hover);
 }
 
 .file-button input {
@@ -618,45 +695,63 @@ select option {
 
 .notice {
   color: var(--muted);
-  font-size: 11px;
-  line-height: 1.7;
-  padding: 14px 0 0;
+  font-size: 10px;
+  line-height: 1.8;
+  padding-top: 10px;
 }
+
+/* ORDER MODAL */
 
 .overlay {
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: rgba(10,1,3,.72);
-  backdrop-filter: blur(8px);
   display: none;
   align-items: center;
   justify-content: center;
   padding: 20px;
+  background: rgba(9,1,3,.75);
+  backdrop-filter: blur(0);
+  -webkit-backdrop-filter: blur(0);
   opacity: 0;
-  transition: opacity .25s ease;
 }
 
 .overlay.open {
   display: flex;
-  opacity: 1;
+  animation: overlayIn .3s ease forwards;
+}
+
+@keyframes overlayIn {
+  to {
+    opacity: 1;
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+  }
 }
 
 .modal {
   width: min(440px,100%);
-  max-height: min(90vh,800px);
+  max-height: min(88vh,800px);
   overflow-y: auto;
-  background: #2b080e;
-  border: 1px solid rgba(255,241,220,.14);
-  border-radius: 20px;
-  padding: 25px;
-  box-shadow: 0 30px 100px rgba(0,0,0,.4);
-  animation: modalIn .35s cubic-bezier(.2,.8,.2,1) both;
+  overscroll-behavior: contain;
+  background: #29080e;
+  border: 1px solid rgba(255,241,220,.13);
+  border-radius: 21px;
+  padding: 24px;
+  box-shadow: 0 30px 100px rgba(0,0,0,.45);
+  transform: translateY(15px) scale(.97);
+  opacity: 0;
+}
+
+.overlay.open .modal {
+  animation: modalIn .48s var(--ease) forwards;
 }
 
 @keyframes modalIn {
-  from { opacity: 0; transform: translateY(15px) scale(.97); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }
 
 .modal-top {
@@ -674,29 +769,69 @@ select option {
 }
 
 .modal-product-icon {
-  font-size: 32px;
-  width: 55px;
-  height: 55px;
+  width: 54px;
+  height: 54px;
+  flex-shrink: 0;
   display: grid;
   place-items: center;
+  font-size: 30px;
   border-radius: 13px;
-  background: rgba(132,21,34,.25);
+  background: rgba(133,8,20,.22);
 }
 
 .modal-product h2 {
-  font-size: 22px;
-  margin: 0 0 5px;
+  font-size: 21px;
+  margin-bottom: 5px;
 }
 
 .close-button {
-  background: transparent;
-  color: var(--muted);
-  border: 1px solid var(--border);
-  border-radius: 9px;
   width: 34px;
   height: 34px;
-  font-size: 19px;
   flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 20px;
+  transition: background .25s ease, color .25s ease;
+}
+
+.close-button:hover {
+  color: var(--cream);
+  background: rgba(255,255,255,.05);
+}
+
+.form-field {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.form-field label {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+input, select {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 13px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--cream);
+  background: rgba(0,0,0,.17);
+  transition: border-color .3s ease, box-shadow .3s ease;
+}
+
+input:focus, select:focus {
+  border-color: rgba(217,181,117,.65);
+  box-shadow: 0 0 0 3px rgba(217,181,117,.06);
+  outline: none;
+}
+
+select option {
+  background: var(--surface);
+  color: var(--cream);
 }
 
 .quantity-control {
@@ -716,16 +851,22 @@ select option {
   width: 35px;
   height: 35px;
   border: 1px solid var(--border);
-  background: var(--panel-light);
+  border-radius: 10px;
+  background: var(--surface-3);
   color: var(--cream);
-  border-radius: 9px;
   font-size: 18px;
+  transition: background .25s ease, transform .25s var(--ease);
+}
+
+.quantity-buttons button:hover {
+  background: var(--red);
 }
 
 .quantity-number {
-  font-weight: 700;
-  min-width: 15px;
+  min-width: 16px;
   text-align: center;
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .total-box {
@@ -734,246 +875,423 @@ select option {
   justify-content: space-between;
   gap: 15px;
   padding: 16px;
-  background: rgba(132,21,34,.2);
-  border: 1px solid rgba(216,177,106,.15);
+  border: 1px solid rgba(217,181,117,.15);
   border-radius: 12px;
+  background: rgba(133,8,20,.16);
   margin: 20px 0;
 }
 
 .total-box span:first-child {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .total-price {
-  font-family: "Playfair Display", serif;
+  font-family: "Outfit",sans-serif;
   font-size: 25px;
+  font-weight: 600;
 }
 
 .modal-submit {
   width: 100%;
-  padding: 14px;
-  font-size: 13px;
+  min-height: 47px;
+  font-size: 12px;
 }
+
+/* FLYING PRODUCT ANIMATION */
 
 .flying-emoji {
   position: fixed;
   z-index: 300;
   pointer-events: none;
-  font-size: 34px;
+  font-size: 35px;
   line-height: 1;
   filter: drop-shadow(0 8px 12px rgba(0,0,0,.3));
   will-change: transform, opacity;
 }
 
+/* TOASTS */
+
 .toast-container {
   position: fixed;
-  top: 18px;
-  right: 18px;
   z-index: 500;
+  top: max(16px,env(safe-area-inset-top));
+  right: 16px;
   display: grid;
   gap: 9px;
-  width: min(330px,calc(100% - 36px));
+  width: min(330px,calc(100% - 32px));
+  pointer-events: none;
 }
 
 .toast {
+  pointer-events: auto;
   padding: 14px 16px;
-  background: #351017;
   color: var(--cream);
+  background: #351017;
   border: 1px solid var(--border);
   border-radius: 12px;
   box-shadow: var(--shadow);
-  font-size: 12px;
-  animation: toastIn .3s ease both;
+  font-size: 11px;
+  animation: toastEnter .4s var(--ease) both;
 }
 
 .toast.success {
-  border-color: rgba(142,199,160,.4);
+  border-color: rgba(145,203,160,.35);
 }
 
 .toast.error {
-  border-color: rgba(242,164,164,.4);
+  border-color: rgba(240,162,162,.4);
 }
 
-@keyframes toastIn {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes toastEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
+
+/* FOOTER */
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  border-top: 1px solid var(--border);
+  margin-top: 43px;
+  padding-top: 19px;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: .2px;
+}
+
+/* MOBILE NAV */
 
 .mobile-nav {
   display: none;
 }
 
-footer {
-  border-top: 1px solid var(--border);
-  margin-top: 45px;
-  padding-top: 20px;
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  color: var(--muted);
-  font-size: 10px;
-}
+/* TABLET */
 
-@media (max-width: 760px) {
+@media (max-width: 850px) {
   .app {
-    padding: 19px 16px 35px;
-  }
-
-  header {
-    padding-bottom: 19px;
-  }
-
-  .brand-mark {
-    font-size: 33px;
-  }
-
-  .brand-mark .phone {
-    font-size: 25px;
-  }
-
-  .desktop-nav {
-    margin: 19px 0 27px;
-    overflow-x: auto;
-  }
-
-  .nav-button {
-    white-space: nowrap;
-    padding: 10px 13px;
+    padding: 21px 19px 35px;
   }
 
   .products-grid {
     grid-template-columns: repeat(2,minmax(0,1fr));
-    gap: 11px;
   }
 
   .product-card {
-    padding: 15px;
-    border-radius: 14px;
-  }
-
-  .product-icon {
-    width: 50px;
-    height: 50px;
-    font-size: 25px;
-    margin-bottom: 13px;
-  }
-
-  .product-name {
-    font-size: 18px;
-  }
-
-  .product-description {
-    font-size: 11px;
-    min-height: 34px;
+    padding: 17px;
   }
 
   .product-bottom {
-    align-items: flex-start;
-    flex-direction: column;
+    flex-wrap: wrap;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+  body {
+    padding-bottom: calc(85px + env(safe-area-inset-bottom));
   }
 
-  .add-button {
-    width: 100%;
+  .app {
+    padding: 15px 13px 25px;
+  }
+
+  header {
+    padding-bottom: 17px;
+  }
+
+  .logo-circle {
+    width: 72px;
+    height: 72px;
+    padding: 10px 6px;
+  }
+
+  .brand-name {
+    font-size: 20px;
+  }
+
+  .brand-caption {
+    font-size: 8px;
+    letter-spacing: 1.2px;
+  }
+
+  .status {
+    padding: 8px 9px;
+    font-size: 9px;
+    gap: 6px;
+  }
+
+  .desktop-nav {
+    display: none;
+  }
+
+  .page-heading {
+    margin: 25px 0 22px;
+  }
+
+  h1 {
+    font-size: 35px;
+  }
+
+  h2 {
+    font-size: 21px;
   }
 
   .stats-grid {
-    gap: 9px;
+    gap: 8px;
+    margin-bottom: 29px;
   }
 
   .stat-card {
-    padding: 14px 12px;
+    padding: 13px 10px;
     border-radius: 13px;
   }
 
   .stat-label {
-    font-size: 10px;
-    margin-bottom: 10px;
+    font-size: 9px;
+    line-height: 1.4;
+    margin-bottom: 12px;
   }
 
   .stat-value {
-    font-size: 24px;
+    font-size: clamp(17px,5vw,24px);
+    letter-spacing: -.5px;
   }
 
   .stat-note {
+    font-size: 9px;
+    line-height: 1.5;
+    margin-top: 8px;
+  }
+
+  .section-heading {
+    margin-top: 29px;
+  }
+
+  .products-grid {
+    gap: 9px;
+  }
+
+  .product-card {
+    padding: 13px 11px;
+    border-radius: 14px;
+  }
+
+  .product-icon {
+    width: 46px;
+    height: 46px;
+    font-size: 24px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+  }
+
+  .product-name {
+    font-size: 17px;
+    line-height: 1.25;
+  }
+
+  .product-description {
+    font-size: 10px;
+    line-height: 1.6;
+    min-height: 48px;
+    margin-bottom: 12px;
+  }
+
+  .product-bottom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .product-price {
+    font-size: 13px;
+  }
+
+  .add-button {
+    width: 100%;
+    padding: 10px 7px;
+    font-size: 10px;
+  }
+
+  .panel {
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .order-row {
+    padding: 11px;
+    gap: 8px;
+  }
+
+  .order-main {
+    gap: 9px;
+  }
+
+  .order-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 19px;
+  }
+
+  .order-name {
+    font-size: 11px;
+  }
+
+  .order-meta {
+    font-size: 9px;
+  }
+
+  .order-total {
     font-size: 10px;
   }
 
   .tools-grid {
     grid-template-columns: 1fr;
+    gap: 9px;
+  }
+
+  .price-row {
+    grid-template-columns: minmax(0,1fr) 100px;
+    gap: 9px;
+  }
+
+  .price-product {
+    font-size: 11px;
+    gap: 7px;
+  }
+
+  .price-product span:first-child {
+    font-size: 20px;
   }
 
   .mobile-nav {
     display: grid;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(4,minmax(0,1fr));
     position: fixed;
     z-index: 80;
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 9px 8px calc(9px + env(safe-area-inset-bottom));
-    background: rgba(26,5,8,.94);
-    backdrop-filter: blur(16px);
+    padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
     border-top: 1px solid var(--border);
+    background: rgba(25,6,9,.91);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
   }
 
   .mobile-nav .nav-button {
-    padding: 8px 3px;
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 5px;
-    font-size: 10px;
-    border-radius: 9px;
+    padding: 8px 2px;
+    border-radius: 10px;
+    font-size: 9px;
   }
 
-  .mobile-nav .nav-icon {
+  .nav-icon {
     font-size: 17px;
-  }
-
-  body {
-    padding-bottom: 90px;
+    line-height: 1;
   }
 
   footer {
-    margin-top: 32px;
+    margin-top: 30px;
+    font-size: 8px;
+  }
+
+  .overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .overlay.open {
+    animation-duration: .28s;
+  }
+
+  .modal {
+    width: 100%;
+    max-height: 91vh;
+    max-height: 91dvh;
+    border-radius: 22px 22px 0 0;
+    padding: 24px 20px calc(22px + env(safe-area-inset-bottom));
+    border-bottom: none;
+  }
+
+  .overlay.open .modal {
+    animation: modalSlideUp .5s var(--ease) forwards;
+  }
+
+  @keyframes modalSlideUp {
+    from {
+      transform: translateY(40px);
+      opacity: .8;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .modal-submit {
+    min-height: 49px;
   }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 360px) {
   .app {
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .logo-circle {
+    width: 62px;
+    height: 62px;
+  }
+
+  .brand-name {
+    font-size: 18px;
+  }
+
+  .brand-caption {
+    font-size: 7px;
+  }
+
+  .status {
+    font-size: 8px;
+    padding: 7px;
   }
 
   .products-grid {
-    gap: 8px;
+    gap: 7px;
   }
 
   .product-card {
-    padding: 12px;
+    padding: 11px 9px;
   }
 
   .product-name {
-    font-size: 16px;
-  }
-
-  .stat-value {
-    font-size: 21px;
-  }
-
-  .order-row {
-    padding: 11px;
+    font-size: 15px;
   }
 }
+
+/* Accessibility: respect reduced-motion preferences */
 
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: .01ms !important;
-    transition-duration: .01ms !important;
     scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
   }
 }
 </style>
@@ -981,25 +1299,58 @@ footer {
 
 <body>
 <div class="app">
+
   <header>
     <a class="brand" href="#" onclick="navigate('overview');return false;" aria-label="missed home">
+      <div class="logo-circle">
+        <svg class="missed-logo" viewBox="0 0 600 190"
+             xmlns="http://www.w3.org/2000/svg"
+             role="img" aria-label="missed logo">
+
+          <g fill="#FFF1DC">
+            <!-- m -->
+            <path d="M18 158 L31 75 Q33 63 46 63 Q59 63 58 78 L57 84 Q70 61 88 61 Q107 61 105 84 Q121 61 140 61 Q166 61 160 91 L150 158 Q148 170 135 170 Q121 170 124 155 L133 99 Q136 85 127 85 Q117 85 112 101 L102 158 Q100 170 87 170 Q74 170 77 155 L86 99 Q89 85 80 85 Q70 85 65 101 L55 158 Q53 170 40 170 Q26 170 29 155 Z"/>
+
+            <!-- telephone handset replaces i -->
+            <path d="M190 35 Q198 22 213 25 Q228 28 225 43 L217 73 Q214 83 205 84 L198 85 L184 142 Q181 153 190 160 L201 168 Q211 175 203 185 Q196 194 184 187 L168 176 Q155 166 158 149 L176 67 Q179 49 190 35 Z" transform="translate(0,-12)"/>
+
+            <!-- s -->
+            <path d="M269 89 Q252 76 238 89 Q231 97 242 103 L258 111 Q282 124 276 146 Q270 172 239 174 Q215 176 199 160 L211 143 Q226 155 240 151 Q252 146 240 139 L227 132 Q205 120 212 99 Q220 72 248 70 Q269 69 283 82 Z"/>
+
+            <!-- s -->
+            <path d="M342 89 Q325 76 311 89 Q304 97 315 103 L331 111 Q355 124 349 146 Q343 172 312 174 Q288 176 272 160 L284 143 Q299 155 313 151 Q325 146 313 139 L300 132 Q278 120 285 99 Q293 72 321 70 Q342 69 356 82 Z"/>
+
+            <!-- e -->
+            <path d="M415 124 L370 124 Q370 146 392 147 Q407 147 419 137 L430 153 Q413 174 388 174 Q350 174 350 137 Q350 101 377 81 Q394 69 414 73 Q442 78 438 105 Q435 121 415 124 Z M377 107 L412 107 Q422 105 420 97 Q418 89 408 89 Q389 89 377 107 Z"/>
+
+            <!-- d -->
+            <path d="M496 25 Q499 13 512 16 Q526 18 523 32 L500 158 Q498 170 485 170 Q472 170 475 156 Q462 174 442 174 Q413 174 419 139 Q426 88 464 75 Q482 69 494 82 Z M468 97 Q450 97 445 126 Q441 148 455 148 Q473 148 480 121 L483 108 Q480 97 468 97 Z"/>
+          </g>
+
+          <!-- telephone signal lines -->
+          <g fill="none" stroke="#FFF1DC" stroke-width="8" stroke-linecap="round">
+            <path d="M221 19 Q247 35 233 62"/>
+            <path d="M239 9 Q275 32 255 69"/>
+            <path d="M257 1 Q302 28 278 77"/>
+          </g>
+        </svg>
+      </div>
       <div>
-        <div class="brand-mark">
-          <span>M</span><span class="phone">☎</span><span>issed<span class="period">.</span></span>
-        </div>
+        <div class="brand-name">missed.</div>
         <div class="brand-caption">Coffee · Moments · Messages</div>
       </div>
     </a>
+
     <div class="header-right">
       <div class="status"><span class="status-dot"></span> Order tracker</div>
     </div>
   </header>
 
   <nav class="desktop-nav" aria-label="Main navigation">
-    <button class="nav-button active" data-page="overview" onclick="navigate('overview')">Overview</button>
-    <button class="nav-button" data-page="history" onclick="navigate('history')">Order History</button>
-    <button class="nav-button" data-page="prices" onclick="navigate('prices')">Prices</button>
-    <button class="nav-button" data-page="tools" onclick="navigate('tools')">Tools</button>
+    <button class="nav-button active" data-page="overview" onclick="navigate('overview')">⌂ Overview</button>
+    <button class="nav-button" data-page="history" onclick="navigate('history')">☷ Order History</button>
+    <button class="nav-button" data-page="prices" onclick="navigate('prices')">＄ Prices</button>
+    <button class="nav-button" data-page="tools" onclick="navigate('tools')">⚙ Tools</button>
   </nav>
 
   <main>
@@ -1026,7 +1377,7 @@ footer {
         <div class="stat-card">
           <div class="stat-label">All-time revenue</div>
           <div class="stat-value" id="allRevenue">AED 0</div>
-          <div class="stat-note">Your total recorded sales</div>
+          <div class="stat-note">Total recorded sales</div>
         </div>
       </div>
 
@@ -1085,7 +1436,7 @@ footer {
         <div>
           <div class="eyebrow">Your menu, your prices</div>
           <h1>Menu prices</h1>
-          <p class="subtitle">Change prices here. New prices will apply to future orders.</p>
+          <p class="subtitle">Changes apply to future orders.</p>
         </div>
       </div>
 
@@ -1104,26 +1455,26 @@ footer {
         <div>
           <div class="eyebrow">Keep things backed up</div>
           <h1>Tools</h1>
-          <p class="subtitle">Export your orders or save a backup of your data.</p>
+          <p class="subtitle">Export orders and protect your records.</p>
         </div>
       </div>
 
       <div class="tools-grid">
         <div class="panel">
           <h3>Export order history</h3>
-          <p class="tool-description">Download your recorded orders as a CSV file that can be opened in spreadsheet apps.</p>
+          <p class="tool-description">Download your orders as a CSV spreadsheet.</p>
           <button class="primary-button" onclick="exportCSV()">Export CSV</button>
         </div>
 
         <div class="panel">
           <h3>Back up your data</h3>
-          <p class="tool-description">Save a backup of your order history and menu prices as a JSON file.</p>
+          <p class="tool-description">Save your orders and prices in a backup file.</p>
           <button class="primary-button" onclick="backupData()">Download backup</button>
         </div>
 
         <div class="panel">
           <h3>Restore a backup</h3>
-          <p class="tool-description">Load a previous backup file to restore its saved orders and prices.</p>
+          <p class="tool-description">Restore a previously downloaded missed. backup.</p>
           <label class="file-button">
             Choose backup file
             <input type="file" accept=".json,application/json" onchange="restoreData(event)">
@@ -1132,14 +1483,12 @@ footer {
 
         <div class="panel">
           <h3>Clear order history</h3>
-          <p class="tool-description">Remove all saved orders from this browser. Export a backup first if you need to keep them.</p>
+          <p class="tool-description">Delete recorded orders. Download a backup first if needed.</p>
           <button class="danger-button" onclick="clearHistory()">Clear history</button>
         </div>
       </div>
 
-      <p class="notice">
-        Important: orders and prices are saved in this browser on this device. They do not automatically sync to another phone, tablet, or computer. Export backups regularly to keep a copy of your records.
-      </p>
+      <p class="notice">Your data is saved in this browser on this device. It does not automatically sync to other devices. Export backups regularly.</p>
     </section>
   </main>
 
@@ -1150,18 +1499,10 @@ footer {
 </div>
 
 <nav class="mobile-nav" aria-label="Mobile navigation">
-  <button class="nav-button active" data-page="overview" onclick="navigate('overview')">
-    <span class="nav-icon">⌂</span><span>Overview</span>
-  </button>
-  <button class="nav-button" data-page="history" onclick="navigate('history')">
-    <span class="nav-icon">☷</span><span>History</span>
-  </button>
-  <button class="nav-button" data-page="prices" onclick="navigate('prices')">
-    <span class="nav-icon">＄</span><span>Prices</span>
-  </button>
-  <button class="nav-button" data-page="tools" onclick="navigate('tools')">
-    <span class="nav-icon">⚙</span><span>Tools</span>
-  </button>
+  <button class="nav-button active" data-page="overview" onclick="navigate('overview')"><span class="nav-icon">⌂</span><span>Overview</span></button>
+  <button class="nav-button" data-page="history" onclick="navigate('history')"><span class="nav-icon">☷</span><span>History</span></button>
+  <button class="nav-button" data-page="prices" onclick="navigate('prices')"><span class="nav-icon">＄</span><span>Prices</span></button>
+  <button class="nav-button" data-page="tools" onclick="navigate('tools')"><span class="nav-icon">⚙</span><span>Tools</span></button>
 </nav>
 
 <div class="overlay" id="orderOverlay" role="dialog" aria-modal="true" aria-labelledby="modalProductName">
@@ -1203,9 +1544,7 @@ footer {
       <span class="total-price" id="orderTotal">AED 0</span>
     </div>
 
-    <button class="primary-button modal-submit" id="submitOrder" onclick="addOrder()">
-      Add order to history <span>→</span>
-    </button>
+    <button class="primary-button modal-submit" id="submitOrder" onclick="addOrder()">Add order to history →</button>
   </div>
 </div>
 
@@ -1213,62 +1552,13 @@ footer {
 
 <script>
 const DEFAULT_PRODUCTS = [
-  {
-    id: "v60-hot",
-    name: "V60 Hot",
-    icon: "☕",
-    price: 35,
-    description: "Hand-brewed coffee, served hot.",
-    flavors: ["Salted Caramel", "Blueberry Blast Cake", "Cookies and Dream"]
-  },
-  {
-    id: "v60-cold",
-    name: "V60 Cold",
-    icon: "🧊",
-    price: 35,
-    description: "A refreshing, carefully brewed coffee.",
-    flavors: ["Cookies and Dream", "Salted Caramel", "Blueberry Blast Cake"]
-  },
-  {
-    id: "dirty-hibiscus",
-    name: "Dirty Hibiscus",
-    icon: "🌺",
-    price: 25,
-    description: "A colourful signature drink.",
-    flavors: []
-  },
-  {
-    id: "passion-mojito",
-    name: "Passion Fruit Mojito",
-    icon: "🍹",
-    price: 20,
-    description: "Passion fruit with a refreshing twist.",
-    flavors: []
-  },
-  {
-    id: "scoop-cookies",
-    name: "Scoop Cookies",
-    icon: "🍪",
-    price: 32,
-    description: "Warm cookies with a sweet finish.",
-    flavors: []
-  },
-  {
-    id: "honey-pudding",
-    name: "Honey Pudding",
-    icon: "🍮",
-    price: 20,
-    description: "A smooth, sweet dessert.",
-    flavors: []
-  },
-  {
-    id: "cheesecake",
-    name: "Cheesecake",
-    icon: "🍰",
-    price: 15,
-    description: "Creamy cheesecake with biscuit notes.",
-    flavors: []
-  }
+  {id:"v60-hot",name:"V60 Hot",icon:"☕",price:35,description:"Hand-brewed coffee, served hot.",flavors:["Salted Caramel","Blueberry Blast Cake","Cookies and Dream"]},
+  {id:"v60-cold",name:"V60 Cold",icon:"🧊",price:35,description:"A refreshing, carefully brewed coffee.",flavors:["Cookies and Dream","Salted Caramel","Blueberry Blast Cake"]},
+  {id:"dirty-hibiscus",name:"Dirty Hibiscus",icon:"🌺",price:25,description:"A colourful signature drink.",flavors:[]},
+  {id:"passion-mojito",name:"Passion Fruit Mojito",icon:"🍹",price:20,description:"Passion fruit with a refreshing twist.",flavors:[]},
+  {id:"scoop-cookies",name:"Scoop Cookies",icon:"🍪",price:32,description:"Warm cookies with a sweet finish.",flavors:[]},
+  {id:"honey-pudding",name:"Honey Pudding",icon:"🍮",price:20,description:"A smooth, sweet dessert.",flavors:[]},
+  {id:"cheesecake",name:"Cheesecake",icon:"🍰",price:15,description:"Creamy cheesecake with biscuit notes.",flavors:[]}
 ];
 
 const ORDERS_KEY = "missedOrders_v3";
@@ -1279,7 +1569,7 @@ let orders = [];
 let selectedProduct = null;
 let selectedFlavor = "";
 let quantity = 1;
-let lastDeletedOrder = null;
+let animationToken = 0;
 
 function money(value) {
   const amount = Number(value) || 0;
@@ -1302,21 +1592,17 @@ function getOrderTotal(order) {
 }
 
 function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[char]);
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[c]);
 }
 
 function saveOrders() {
   try {
     localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
     return true;
-  } catch (error) {
-    toast("Could not save orders. Please check your browser storage.", "error");
+  } catch {
+    toast("Could not save orders. Check browser storage.", "error");
     return false;
   }
 }
@@ -1327,7 +1613,7 @@ function savePriceData() {
     products.forEach(p => data[p.id] = p.price);
     localStorage.setItem(PRICES_KEY, JSON.stringify(data));
     return true;
-  } catch (error) {
+  } catch {
     toast("Could not save prices.", "error");
     return false;
   }
@@ -1335,51 +1621,49 @@ function savePriceData() {
 
 function loadData() {
   try {
-    const savedOrders = JSON.parse(localStorage.getItem(ORDERS_KEY) || "[]");
-    if (Array.isArray(savedOrders)) {
-      orders = savedOrders.filter(o =>
+    const saved = JSON.parse(localStorage.getItem(ORDERS_KEY) || "[]");
+    if (Array.isArray(saved)) {
+      orders = saved.filter(o =>
         o && o.id && o.productName &&
         Number.isFinite(Number(o.price)) &&
         Number.isFinite(Number(o.quantity)) &&
         Number.isFinite(Number(o.timestamp))
       );
     }
-  } catch (error) {
+  } catch {
     orders = [];
   }
 
   try {
-    const savedPrices = JSON.parse(localStorage.getItem(PRICES_KEY) || "{}");
+    const prices = JSON.parse(localStorage.getItem(PRICES_KEY) || "{}");
     products.forEach(p => {
-      if (savedPrices[p.id] !== undefined &&
-          Number.isFinite(Number(savedPrices[p.id])) &&
-          Number(savedPrices[p.id]) >= 0) {
-        p.price = Number(savedPrices[p.id]);
+      if (prices[p.id] !== undefined &&
+          Number.isFinite(Number(prices[p.id])) &&
+          Number(prices[p.id]) >= 0) {
+        p.price = Number(prices[p.id]);
       }
     });
-  } catch (error) {}
+  } catch {}
 }
 
 function navigate(page) {
-  const validPages = ["overview", "history", "prices", "tools"];
-  if (!validPages.includes(page)) return;
+  if (!["overview","history","prices","tools"].includes(page)) return;
 
   document.querySelectorAll(".page").forEach(el => el.classList.remove("active"));
   document.getElementById("page-" + page).classList.add("active");
 
   document.querySelectorAll("[data-page]").forEach(button => {
-    button.classList.toggle("active", button.dataset.page === page);
+    button.classList.toggle("active",button.dataset.page === page);
   });
 
   if (page === "history") renderHistory();
   if (page === "overview") renderRecent();
 
-  window.scrollTo({top: 0, behavior: "smooth"});
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
 function renderProducts() {
-  const grid = document.getElementById("productsGrid");
-  grid.innerHTML = products.map(p => `
+  document.getElementById("productsGrid").innerHTML = products.map(p => `
     <article class="product-card">
       <div class="product-icon">${p.icon}</div>
       <div class="product-name">${escapeHTML(p.name)}</div>
@@ -1403,36 +1687,41 @@ function openOrder(id) {
   document.getElementById("modalProductName").textContent = selectedProduct.name;
   document.getElementById("modalProductDescription").textContent = selectedProduct.description;
   document.getElementById("orderPrice").value = selectedProduct.price;
-  document.getElementById("quantityNumber").textContent = quantity;
+  document.getElementById("quantityNumber").textContent = "1";
 
-  const flavorField = document.getElementById("flavorField");
-  const flavorSelect = document.getElementById("orderFlavor");
+  const field = document.getElementById("flavorField");
+  const select = document.getElementById("orderFlavor");
 
   if (selectedProduct.flavors.length) {
-    flavorField.style.display = "grid";
-    flavorSelect.innerHTML =
+    field.style.display = "grid";
+    select.innerHTML =
       '<option value="">Select a flavour</option>' +
       selectedProduct.flavors.map(f =>
         `<option value="${escapeHTML(f)}">${escapeHTML(f)}</option>`
       ).join("");
   } else {
-    flavorField.style.display = "none";
-    flavorSelect.innerHTML = "";
+    field.style.display = "none";
+    select.innerHTML = "";
   }
 
   const overlay = document.getElementById("orderOverlay");
   overlay.style.display = "flex";
+  overlay.classList.remove("open");
   requestAnimationFrame(() => overlay.classList.add("open"));
+
   document.body.style.overflow = "hidden";
   updateTotal();
 }
 
 function closeOrder() {
+  animationToken++;
+
   const overlay = document.getElementById("orderOverlay");
   overlay.classList.remove("open");
+
   setTimeout(() => {
     if (!overlay.classList.contains("open")) overlay.style.display = "none";
-  }, 250);
+  },300);
 
   document.body.style.overflow = "";
   selectedProduct = null;
@@ -1441,11 +1730,11 @@ function closeOrder() {
 
   const button = document.getElementById("submitOrder");
   button.disabled = false;
-  button.innerHTML = 'Add order to history <span>→</span>';
+  button.textContent = "Add order to history →";
 }
 
 function changeQuantity(change) {
-  quantity = Math.min(99, Math.max(1, quantity + change));
+  quantity = Math.min(99,Math.max(1,quantity + change));
   document.getElementById("quantityNumber").textContent = quantity;
   updateTotal();
 }
@@ -1455,11 +1744,11 @@ function updateTotal() {
   document.getElementById("orderTotal").textContent = money(price * quantity);
 }
 
-function flyProductEmoji(product, onComplete) {
+function flyProductEmoji(product, token, onComplete) {
   const button = document.getElementById("submitOrder");
   const target = document.getElementById("historyList");
 
-  if (!button || !product || !target) {
+  if (!button || !target || !product || !button.isConnected) {
     onComplete();
     return;
   }
@@ -1470,36 +1759,34 @@ function flyProductEmoji(product, onComplete) {
   const emoji = document.createElement("div");
   emoji.className = "flying-emoji";
   emoji.textContent = product.icon;
-  emoji.style.left = (start.left + start.width / 2 - 17) + "px";
-  emoji.style.top = (start.top + start.height / 2 - 17) + "px";
+  emoji.style.left = (start.left + start.width/2 - 17) + "px";
+  emoji.style.top = (start.top + start.height/2 - 17) + "px";
   document.body.appendChild(emoji);
 
-  const dx = end.left + Math.min(end.width / 2, 180) - start.left - start.width / 2;
-  const dy = end.top + 35 - start.top - start.height / 2;
+  const dx = end.left + Math.min(end.width/2,180) - start.left - start.width/2;
+  const dy = end.top + 35 - start.top - start.height/2;
+
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (reduced) {
+    emoji.remove();
+    onComplete();
+    return;
+  }
 
   const animation = emoji.animate([
-    {
-      transform: "translate(0,0) scale(1.25) rotate(0deg)",
-      opacity: 1
-    },
-    {
-      transform: `translate(${dx * .45}px,${dy * .4}px) scale(.9) rotate(-12deg)`,
-      opacity: 1,
-      offset: .55
-    },
-    {
-      transform: `translate(${dx}px,${dy}px) scale(.25) rotate(12deg)`,
-      opacity: 0
-    }
+    {transform:"translate(0,0) scale(1.2) rotate(0deg)",opacity:1},
+    {transform:`translate(${dx*.45}px,${dy*.4}px) scale(.9) rotate(-12deg)`,opacity:1,offset:.55},
+    {transform:`translate(${dx}px,${dy}px) scale(.25) rotate(12deg)`,opacity:0}
   ], {
-    duration: 650,
-    easing: "cubic-bezier(.2,.7,.2,1)",
-    fill: "forwards"
+    duration:720,
+    easing:"cubic-bezier(.16,1,.3,1)",
+    fill:"forwards"
   });
 
   animation.onfinish = () => {
     emoji.remove();
-    onComplete();
+    if (token === animationToken) onComplete();
   };
 
   animation.oncancel = () => emoji.remove();
@@ -1511,26 +1798,25 @@ function addOrder() {
   const rawPrice = Number(document.getElementById("orderPrice").value);
 
   if (!Number.isFinite(rawPrice) || rawPrice < 0 || rawPrice > 100000) {
-    toast("Please enter a valid price.", "error");
+    toast("Please enter a valid price.","error");
     return;
   }
 
   if (selectedProduct.flavors.length && !selectedFlavor) {
-    toast("Please choose a flavour.", "error");
+    toast("Please choose a flavour.","error");
     return;
   }
 
   const product = {...selectedProduct};
-
   const order = {
-    id: makeId(),
-    productId: product.id,
-    productName: product.name,
-    icon: product.icon,
-    flavor: selectedFlavor,
+    id:makeId(),
+    productId:product.id,
+    productName:product.name,
+    icon:product.icon,
+    flavor:selectedFlavor,
     quantity,
-    price: Math.round(rawPrice * 100) / 100,
-    timestamp: Date.now()
+    price:Math.round(rawPrice*100)/100,
+    timestamp:Date.now()
   };
 
   const button = document.getElementById("submitOrder");
@@ -1540,41 +1826,37 @@ function addOrder() {
   orders.push(order);
 
   if (!saveOrders()) {
-    orders = orders.filter(item => item.id !== order.id);
+    orders = orders.filter(o => o.id !== order.id);
     button.disabled = false;
-    button.innerHTML = 'Add order to history <span>→</span>';
+    button.textContent = "Add order to history →";
     return;
   }
 
+  const token = ++animationToken;
   const total = getOrderTotal(order);
   const name = product.name;
 
-  flyProductEmoji(product, () => {
+  flyProductEmoji(product,token,() => {
     closeOrder();
     refreshAll();
     navigate("history");
-    toast(`${name} added · ${money(total)}`, "success");
+    toast(`${name} added · ${money(total)}`,"success");
   });
 }
 
 function formatDate(timestamp) {
-  return new Date(timestamp).toLocaleString("en-AE", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit"
+  return new Date(timestamp).toLocaleString("en-AE",{
+    day:"numeric",
+    month:"short",
+    year:"numeric",
+    hour:"2-digit",
+    minute:"2-digit"
   });
 }
 
-function orderMarkup(order, animate = false) {
-  const flavor = order.flavor
-    ? ` · ${escapeHTML(order.flavor)}`
-    : "";
-
-  const icon = order.icon ||
-    (getProduct(order.productId) || {}).icon ||
-    "☕";
+function orderMarkup(order,animate=false) {
+  const flavor = order.flavor ? ` · ${escapeHTML(order.flavor)}` : "";
+  const icon = order.icon || (getProduct(order.productId) || {}).icon || "☕";
 
   return `
     <article class="order-row ${animate ? "order-arrive" : ""}">
@@ -1597,276 +1879,222 @@ function orderMarkup(order, animate = false) {
 }
 
 function renderRecent() {
-  const list = document.getElementById("recentList");
-  const recent = [...orders].sort((a,b) => b.timestamp - a.timestamp).slice(0,4);
-
-  list.innerHTML = recent.length
-    ? recent.map(o => orderMarkup(o)).join("")
-    : `<div class="empty-state">
-         <div class="empty-icon">☕</div>
-         <h3>No orders yet</h3>
-         <p>Your orders will appear here once you add your first one.</p>
-       </div>`;
+  const recent = [...orders].sort((a,b)=>b.timestamp-a.timestamp).slice(0,4);
+  document.getElementById("recentList").innerHTML = recent.length
+    ? recent.map(o=>orderMarkup(o)).join("")
+    : `<div class="empty-state"><div class="empty-icon">☕</div><h3>No orders yet</h3><p>Your orders will appear here after you add your first one.</p></div>`;
 }
 
-function renderHistory(newOrderId = null) {
-  const list = document.getElementById("historyList");
-  const sorted = [...orders].sort((a,b) => b.timestamp - a.timestamp);
+function renderHistory() {
+  const sorted = [...orders].sort((a,b)=>b.timestamp-a.timestamp);
 
   document.getElementById("historyCount").textContent = orders.length;
   document.getElementById("historyItems").textContent =
-    orders.reduce((sum,o) => sum + Number(o.quantity), 0);
+    orders.reduce((sum,o)=>sum+Number(o.quantity),0);
   document.getElementById("historyRevenue").textContent =
-    money(orders.reduce((sum,o) => sum + getOrderTotal(o), 0));
+    money(orders.reduce((sum,o)=>sum+getOrderTotal(o),0));
 
-  list.innerHTML = sorted.length
-    ? sorted.map(o => orderMarkup(o, o.id === newOrderId)).join("")
-    : `<div class="empty-state">
-         <div class="empty-icon">☎</div>
-         <h3>Nothing here yet</h3>
-         <p>When you add an order, it will show up in your history.</p>
-       </div>`;
+  document.getElementById("historyList").innerHTML = sorted.length
+    ? sorted.map(o=>orderMarkup(o)).join("")
+    : `<div class="empty-state"><div class="empty-icon">☎</div><h3>Nothing here yet</h3><p>When you add an order, it will appear here.</p></div>`;
 }
 
 function updateStats() {
   const now = new Date();
-  const start = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-  const end = start + 24 * 60 * 60 * 1000;
+  const start = new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
+  const end = start + 86400000;
+  const today = orders.filter(o=>o.timestamp>=start && o.timestamp<end);
 
-  const todaysOrders = orders.filter(o => o.timestamp >= start && o.timestamp < end);
-  const todaysRevenue = todaysOrders.reduce((sum,o) => sum + getOrderTotal(o), 0);
-  const allRevenue = orders.reduce((sum,o) => sum + getOrderTotal(o), 0);
-
-  document.getElementById("todayOrders").textContent = todaysOrders.length;
-  document.getElementById("todayRevenue").textContent = money(todaysRevenue);
-  document.getElementById("allRevenue").textContent = money(allRevenue);
+  document.getElementById("todayOrders").textContent = today.length;
+  document.getElementById("todayRevenue").textContent =
+    money(today.reduce((sum,o)=>sum+getOrderTotal(o),0));
+  document.getElementById("allRevenue").textContent =
+    money(orders.reduce((sum,o)=>sum+getOrderTotal(o),0));
 }
 
 function renderPrices() {
-  document.getElementById("priceList").innerHTML = products.map(p => `
+  document.getElementById("priceList").innerHTML = products.map(p=>`
     <div class="price-row">
-      <div class="price-product">
-        <span>${p.icon}</span>
-        <span>${escapeHTML(p.name)}</span>
-      </div>
-      <input type="number" min="0" max="100000" step="0.01"
-        aria-label="${escapeHTML(p.name)} price"
-        data-price-id="${p.id}" value="${p.price}">
+      <div class="price-product"><span>${p.icon}</span><span>${escapeHTML(p.name)}</span></div>
+      <input type="number" min="0" max="100000" step=".01" aria-label="${escapeHTML(p.name)} price" data-price-id="${p.id}" value="${p.price}">
     </div>
   `).join("");
 }
 
 function savePrices() {
-  const inputs = document.querySelectorAll("[data-price-id]");
-  const updated = [];
+  const updates = [];
 
-  for (const input of inputs) {
+  for (const input of document.querySelectorAll("[data-price-id]")) {
     const price = Number(input.value);
     if (!Number.isFinite(price) || price < 0 || price > 100000) {
-      toast("Please check all prices.", "error");
+      toast("Please check all prices.","error");
       return;
     }
-    updated.push({id: input.dataset.priceId, price: Math.round(price * 100) / 100});
+    updates.push({id:input.dataset.priceId,price:Math.round(price*100)/100});
   }
 
-  updated.forEach(item => {
-    const product = getProduct(item.id);
-    if (product) product.price = item.price;
+  updates.forEach(item=>{
+    const p=getProduct(item.id);
+    if(p) p.price=item.price;
   });
 
-  if (!savePriceData()) return;
-
+  if(!savePriceData()) return;
   renderProducts();
   renderPrices();
-  toast("Menu prices saved.", "success");
+  toast("Menu prices saved.","success");
 }
 
 function resetPrices() {
-  if (!confirm("Reset all menu prices to the original prices?")) return;
+  if(!confirm("Reset all menu prices to their original values?")) return;
 
-  products.forEach(p => {
-    const original = DEFAULT_PRODUCTS.find(d => d.id === p.id);
-    if (original) p.price = original.price;
+  products.forEach(p=>{
+    const original=DEFAULT_PRODUCTS.find(d=>d.id===p.id);
+    if(original) p.price=original.price;
   });
 
-  savePriceData();
+  if(!savePriceData()) return;
   renderProducts();
   renderPrices();
-  toast("Prices reset to defaults.", "success");
+  toast("Prices reset to defaults.","success");
 }
 
 function deleteOrder(id) {
-  const index = orders.findIndex(o => o.id === id);
-  if (index === -1) return;
+  const index=orders.findIndex(o=>o.id===id);
+  if(index<0) return;
 
-  lastDeletedOrder = {...orders[index]};
+  const removed=orders[index];
   orders.splice(index,1);
 
-  if (!saveOrders()) {
-    orders.splice(index,0,lastDeletedOrder);
+  if(!saveOrders()) {
+    orders.splice(index,0,removed);
     return;
   }
 
   refreshAll();
-
-  const container = document.getElementById("toastContainer");
-  const toastEl = document.createElement("div");
-  toastEl.className = "toast";
-  toastEl.innerHTML = `Order deleted. <button class="text-button" style="margin-left:8px" onclick="undoDelete()">Undo</button>`;
-  container.appendChild(toastEl);
-
-  setTimeout(() => toastEl.remove(), 6000);
-}
-
-function undoDelete() {
-  if (!lastDeletedOrder) return;
-
-  orders.push(lastDeletedOrder);
-  lastDeletedOrder = null;
-
-  if (!saveOrders()) return;
-
-  refreshAll();
-  toast("Order restored.", "success");
+  toast("Order deleted.");
 }
 
 function clearHistory() {
-  if (!orders.length) {
+  if(!orders.length) {
     toast("There are no orders to clear.");
     return;
   }
 
-  if (!confirm("Delete all order history? This cannot be undone unless you have a backup.")) return;
+  if(!confirm("Delete all order history? Export a backup first if you need to keep it.")) return;
 
-  orders = [];
+  const previous=orders;
+  orders=[];
 
-  if (!saveOrders()) return;
+  if(!saveOrders()) {
+    orders=previous;
+    return;
+  }
 
   refreshAll();
-  toast("Order history cleared.", "success");
+  toast("Order history cleared.","success");
 }
 
-function downloadFile(filename, content, type) {
-  const blob = new Blob([content], {type});
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
+function downloadFile(filename,content,type) {
+  const blob=new Blob([content],{type});
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement("a");
+  link.href=url;
+  link.download=filename;
   document.body.appendChild(link);
   link.click();
   link.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
 }
 
 function exportCSV() {
-  const rows = [
-    ["Order ID", "Date", "Product", "Flavour", "Quantity", "Unit Price (AED)", "Total (AED)"],
-    ...[...orders].sort((a,b) => a.timestamp - b.timestamp).map(o => [
-      o.id,
-      formatDate(o.timestamp),
-      o.productName,
-      o.flavor || "",
-      o.quantity,
-      o.price,
-      getOrderTotal(o)
+  const rows=[
+    ["Order ID","Date","Product","Flavour","Quantity","Unit Price (AED)","Total (AED)"],
+    ...[...orders].sort((a,b)=>a.timestamp-b.timestamp).map(o=>[
+      o.id,formatDate(o.timestamp),o.productName,o.flavor||"",o.quantity,o.price,getOrderTotal(o)
     ])
   ];
 
-  const csv = rows.map(row =>
-    row.map(value => `"${String(value ?? "").replace(/"/g,'""')}"`).join(",")
-  ).join("\r\n");
-
-  downloadFile("missed-order-history.csv", "\uFEFF" + csv, "text/csv;charset=utf-8;");
-  toast("CSV exported.", "success");
+  const csv=rows.map(row=>row.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(",")).join("\r\n");
+  downloadFile("missed-order-history.csv","\uFEFF"+csv,"text/csv;charset=utf-8;");
+  toast("CSV exported.","success");
 }
 
 function backupData() {
-  const data = {
-    app: "missed-order-tracker",
-    version: 1,
-    exportedAt: new Date().toISOString(),
+  const data={
+    app:"missed-order-tracker",
+    version:1,
+    exportedAt:new Date().toISOString(),
     orders,
-    prices: Object.fromEntries(products.map(p => [p.id,p.price]))
+    prices:Object.fromEntries(products.map(p=>[p.id,p.price]))
   };
 
-  downloadFile(
-    "missed-backup.json",
-    JSON.stringify(data,null,2),
-    "application/json"
-  );
-
-  toast("Backup downloaded.", "success");
+  downloadFile("missed-backup.json",JSON.stringify(data,null,2),"application/json");
+  toast("Backup downloaded.","success");
 }
 
 function restoreData(event) {
-  const file = event.target.files && event.target.files[0];
-  if (!file) return;
+  const file=event.target.files?.[0];
+  if(!file) return;
 
-  const reader = new FileReader();
+  const reader=new FileReader();
 
-  reader.onload = () => {
+  reader.onload=()=>{
     try {
-      const data = JSON.parse(reader.result);
+      const data=JSON.parse(reader.result);
+      if(!data || !Array.isArray(data.orders) || !data.prices) throw new Error();
 
-      if (!data || !Array.isArray(data.orders) || !data.prices) {
-        throw new Error("Invalid backup format");
-      }
+      if(!confirm("Restore this backup? Current orders and prices will be replaced.")) return;
 
-      if (!confirm("Restore this backup? Your current orders and prices will be replaced.")) {
-        event.target.value = "";
-        return;
-      }
-
-      const validOrders = data.orders.filter(o =>
+      const restored=data.orders.filter(o=>
         o && o.id && o.productName &&
         Number.isFinite(Number(o.price)) &&
         Number.isFinite(Number(o.quantity)) &&
         Number.isFinite(Number(o.timestamp))
       );
 
-      const previousOrders = orders;
-      const previousProducts = products.map(p => ({...p}));
+      const oldOrders=orders;
+      const oldProducts=products.map(p=>({...p}));
 
-      orders = validOrders;
+      orders=restored;
 
-      products.forEach(p => {
-        const price = data.prices[p.id];
-        if (price !== undefined && Number.isFinite(Number(price)) && Number(price) >= 0) {
-          p.price = Number(price);
+      products.forEach(p=>{
+        const price=data.prices[p.id];
+        if(price!==undefined && Number.isFinite(Number(price)) && Number(price)>=0) {
+          p.price=Number(price);
         }
       });
 
-      if (!saveOrders() || !savePriceData()) {
-        orders = previousOrders;
-        products = previousProducts;
+      if(!saveOrders() || !savePriceData()) {
+        orders=oldOrders;
+        products=oldProducts;
         return;
       }
 
       refreshAll();
-      toast("Backup restored.", "success");
-    } catch (error) {
-      toast("That file does not look like a valid missed. backup.", "error");
+      toast("Backup restored.","success");
+    } catch {
+      toast("That file is not a valid missed. backup.","error");
+    } finally {
+      event.target.value="";
     }
-
-    event.target.value = "";
   };
 
-  reader.onerror = () => toast("Could not read that file.", "error");
+  reader.onerror=()=>toast("Could not read that file.","error");
   reader.readAsText(file);
 }
 
-function toast(message, type = "") {
-  const container = document.getElementById("toastContainer");
-  const element = document.createElement("div");
-  element.className = "toast " + type;
-  element.textContent = message;
+function toast(message,type="") {
+  const container=document.getElementById("toastContainer");
+  const element=document.createElement("div");
+  element.className="toast "+type;
+  element.textContent=message;
   container.appendChild(element);
 
-  setTimeout(() => {
-    element.style.opacity = "0";
-    element.style.transform = "translateY(-5px)";
-    setTimeout(() => element.remove(), 300);
-  }, 3000);
+  setTimeout(()=>{
+    element.style.opacity="0";
+    element.style.transform="translateY(-5px)";
+    setTimeout(()=>element.remove(),300);
+  },3000);
 }
 
 function refreshAll() {
@@ -1877,12 +2105,12 @@ function refreshAll() {
   updateStats();
 }
 
-document.getElementById("orderOverlay").addEventListener("click", event => {
-  if (event.target.id === "orderOverlay") closeOrder();
+document.getElementById("orderOverlay").addEventListener("click",event=>{
+  if(event.target.id==="orderOverlay") closeOrder();
 });
 
-document.addEventListener("keydown", event => {
-  if (event.key === "Escape") closeOrder();
+document.addEventListener("keydown",event=>{
+  if(event.key==="Escape") closeOrder();
 });
 
 loadData();
